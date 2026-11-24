@@ -18,7 +18,7 @@ export const partners: Person[] = [
     photo: '/images/team/daniel.jpg',
     bio: [
       'Daniel started his first business at 12. He co-founded Twangoo, sold it to Groupon 156 days after founding, and went on to co-run Groupon in South Africa and across Central and Eastern Europe.',
-      'He founded and exited Click2Sure, remains an investor and advisor at Hyperli, and runs Automaiq, which deploys AI operating layers inside small and mid-sized businesses. He is a former chairman of Silicon Cape.',
+      'He founded and exited Click2Sure, remains an investor and advisor at Hyperli, and runs an AI consultancy that builds AI operating layers for small and mid-sized businesses. He is a former chairman of Silicon Cape.',
       'He holds an MBA from London Business School and completed the Singularity University executive programme.',
     ],
   },
