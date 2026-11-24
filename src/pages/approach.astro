@@ -1,9 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import PitchBand from '../components/PitchBand.astro';
 import Mark from '../components/Mark.astro';
-import { modes, platform, stages, criteria } from '../data/approach';
+import { profile, commitments, stages, criteria, focusAreas, bestFor } from '../data/approach';
 
 const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   ['seed'],
@@ -11,37 +10,54 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   ['seed', 'founder', 'partner'],
 ];
 ---
-<Base title="Approach" description="How Team Africa Ventures builds and backs companies: two ways we work, the platform founders get, our three-stage process and what we look for.">
+<Base title="How we build" description="How Team Africa Ventures builds AI-first companies with founders: our model, what we commit, our three-stage process and what we look for.">
   <PageHero
-    label="Approach"
-    title="We work inside the business, not beside it."
-    intro="With a deep understanding of the South African market, we look for defendable niches. Then we either build the company ourselves or partner with founders and world-leading organisations to give it the best chance."
+    label="How we build"
+    title="We build inside the company, not beside it."
+    intro="Team Africa Ventures is a venture studio. We start before day one, build version one with founders, and fund what works. Every company is AI-first, with a small team and a global market."
     parts={['seed']}
   />
 
-  <section class="section">
-    <div class="wrap two-up">
-      {modes.map((m) => (
-        <article class="mode">
-          <h2>{m.title}</h2>
-          <p>{m.body}</p>
-          <p class="mode__eg">For example: {m.examples.join(', ')}</p>
-        </article>
-      ))}
+  <section class="section" aria-labelledby="glance-h">
+    <div class="wrap split">
+      <div>
+        <p class="label">At a glance</p>
+        <h2 id="glance-h" class="h-section">The short version, for founders comparing partners.</h2>
+      </div>
+      <dl class="glance">
+        {profile.map((p) => (
+          <div class="glance__row">
+            <dt>{p.term}</dt>
+            <dd>{p.detail}</dd>
+          </div>
+        ))}
+        <div class="glance__row">
+          <dt>Focus areas</dt>
+          <dd>{focusAreas.map((f) => f.title).join(', ')}</dd>
+        </div>
+        <div class="glance__row">
+          <dt>Best for</dt>
+          <dd>
+            <ul>
+              {bestFor.map((b) => <li>{b}</li>)}
+            </ul>
+          </dd>
+        </div>
+      </dl>
     </div>
   </section>
 
-  <section class="section on-mist" aria-labelledby="platform-h">
-    <div class="wrap platform">
+  <section class="section on-alt" aria-labelledby="commit-h">
+    <div class="wrap split">
       <div>
-        <p class="label">What founders get</p>
-        <h2 id="platform-h">One platform, four things you would otherwise hunt for separately.</h2>
+        <p class="label">What we commit</p>
+        <h2 id="commit-h" class="h-section">More than a cheque, from the first day.</h2>
       </div>
-      <dl class="platform__list">
-        {platform.map((p) => (
+      <dl class="commit">
+        {commitments.map((c) => (
           <div>
-            <dt>{p.title}</dt>
-            <dd>{p.body}</dd>
+            <dt>{c.title}</dt>
+            <dd>{c.body}</dd>
           </div>
         ))}
       </dl>
@@ -51,14 +67,14 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   <section class="section" aria-labelledby="stages-h">
     <div class="wrap">
       <p class="label">Our process</p>
-      <h2 id="stages-h" class="stages__h">From idea to a company that runs without us.</h2>
+      <h2 id="stages-h" class="h-section">From a weak point in a market to a company that scales without the headcount.</h2>
       <ol class="stage-list">
         {stages.map((s, i) => (
           <li class="stage-row">
             <div class="stage-row__art">
               <Mark parts={stageParts[i]} strokeWidth={4} idPrefix={`ap${i}`} class="stage-row__mark" />
             </div>
-            <div class="stage-row__head">
+            <div>
               <p class="stage-row__num">Stage {i + 1}</p>
               <h3>{s.title}</h3>
               <p class="stage-row__sum">{s.summary}</p>
@@ -73,86 +89,73 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   </section>
 
   <section class="section on-dark" aria-labelledby="crit-h">
-    <div class="wrap crit">
+    <div class="wrap split">
       <div>
-        <p class="label">Who we back</p>
-        <h2 id="crit-h">Seven things we look for.</h2>
+        <p class="label">Who we build with</p>
+        <h2 id="crit-h" class="h-section">Seven things we look for.</h2>
         <p class="crit__note">
           No team has all seven on day one. We look for founders who have most of them and know
           which ones they are missing.
         </p>
       </div>
-      <ol class="crit__list">
+      <ul class="crit__list">
         {criteria.map((c) => (
           <li>
             <h3>{c.title}</h3>
             <p>{c.body}</p>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   </section>
-
-  <PitchBand />
 </Base>
 
 <style>
-  .two-up {
+  .glance {
+    margin: 0;
+    border-top: 2px solid var(--text);
+  }
+  .glance__row {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 3rem clamp(2rem, 6vw, 6rem);
+    grid-template-columns: minmax(8rem, 0.45fr) minmax(0, 1fr);
+    gap: 0.4rem 2rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--line);
   }
-  .mode {
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-  }
-  .mode h2 {
-    font-size: var(--step-3);
-    margin-bottom: 1.25rem;
-  }
-  .mode p {
-    color: var(--ink-soft);
-    max-width: 44ch;
-  }
-  .mode__eg {
-    margin-top: 1.25rem;
+  .glance dt {
     font-weight: 600;
-    color: var(--indigo) !important;
+    color: var(--accent);
+  }
+  .glance dd {
+    margin: 0;
+  }
+  .glance ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.35rem;
   }
 
-  .platform {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 3rem clamp(2rem, 6vw, 6rem);
-  }
-  .platform h2 {
-    font-size: var(--step-3);
-    max-width: 16ch;
-  }
-  .platform__list {
+  .commit {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.5rem 2.5rem;
+    gap: 2.5rem;
   }
-  .platform__list div {
+  .commit div {
     padding-top: 1.25rem;
     border-top: 1px solid var(--line);
   }
-  .platform__list dt {
+  .commit dt {
     font-size: var(--step-1);
     font-weight: 400;
     margin-bottom: 0.5rem;
   }
-  .platform__list dd {
+  .commit dd {
     margin: 0;
-    color: var(--ink-soft);
+    color: var(--text-soft);
   }
 
-  .stages__h {
-    font-size: var(--step-3);
-    max-width: 18ch;
-  }
   .stage-list {
     list-style: none;
     margin: clamp(2.5rem, 5vw, 4rem) 0 0;
@@ -170,11 +173,12 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   .stage-row :global(.stage-row__mark) {
     width: 100%;
     height: auto;
+    color: var(--text);
   }
   .stage-row__num {
     font-size: var(--step--1);
     font-weight: 600;
-    color: var(--indigo);
+    color: var(--accent);
     margin-bottom: 0.4rem;
   }
   .stage-row h3 {
@@ -184,7 +188,7 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   }
   .stage-row__sum {
     margin-top: 0.75rem;
-    color: var(--ink-soft);
+    color: var(--text-soft);
     max-width: 32ch;
   }
   .stage-row__qs {
@@ -207,49 +211,35 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     top: 1.15rem;
     width: 0.55rem;
     height: 0.55rem;
-    border: 1px solid var(--indigo);
+    border: 1px solid var(--accent);
     border-radius: 50%;
   }
 
-  .crit {
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: 3rem clamp(2rem, 6vw, 6rem);
-  }
-  .crit h2 {
-    font-size: var(--step-3);
-    max-width: 12ch;
-  }
   .crit__note {
     margin-top: 1.5rem;
-    color: var(--on-dark-soft);
+    color: var(--text-soft);
     max-width: 34ch;
   }
   .crit__list {
     list-style: none;
     margin: 0;
     padding: 0;
-    counter-reset: crit;
   }
   .crit__list li {
     display: grid;
     grid-template-columns: minmax(10rem, 0.8fr) minmax(0, 1.2fr);
     gap: 0.25rem 2rem;
     padding-block: 1.1rem;
-    border-top: 1px solid var(--line-dark);
+    border-top: 1px solid var(--line);
   }
   .crit__list h3 {
     font-size: 1.15rem;
   }
   .crit__list p {
-    color: var(--on-dark-soft);
+    color: var(--text-soft);
   }
 
   @media (max-width: 63.99rem) {
-    .platform,
-    .crit {
-      grid-template-columns: 1fr;
-    }
     .stage-row {
       grid-template-columns: 7rem minmax(0, 1fr);
     }
@@ -258,11 +248,9 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     }
   }
   @media (max-width: 47.99rem) {
-    .two-up,
-    .platform__list {
-      grid-template-columns: 1fr;
-    }
-    .crit__list li {
+    .commit,
+    .crit__list li,
+    .glance__row {
       grid-template-columns: 1fr;
     }
   }

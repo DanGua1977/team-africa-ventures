@@ -1,0 +1,25 @@
+# Team Africa Ventures
+
+> Team Africa Ventures (TAV) is an operator-led venture studio based in Cape Town. It builds AI-first companies with founders: small teams, software doing most of the work, built to replace manual, people-heavy service businesses in markets worldwide.
+
+## What TAV does
+- Model: venture studio. TAV builds companies with founders from before day one, then funds what works.
+- Stage: pre-idea through seed.
+- Commitment: capital, a build team, an AI operating stack and a go-to-market network.
+- Focus: AI-first replacements for incumbent service businesses (back-office services, customer operations, compliance and admin, commerce operations).
+- Best for: founders and operators who know a service industry from the inside.
+
+## Track record
+- 18 companies built or backed, 8 exits, 1,000+ jobs created, $50m+ raised by its companies.
+- Partners co-founded Twangoo, sold to Groupon 156 days after founding, and ran Groupon in South Africa for seven years.
+- Companies built or backed have been acquired by Groupon, Naspers, Campaign Monitor and Massmart.
+
+## People
+- Daniel Guasco, Partner
+- Wayne Gosling, Partner
+
+## Pages
+- [How we build](https://www.teamafricaventures.com/approach/): model, commitments, process, criteria
+- [Portfolio](https://www.teamafricaventures.com/portfolio/): companies built and backed, with outcomes
+- [Team](https://www.teamafricaventures.com/team/)
+- [Contact](https://www.teamafricaventures.com/contact/): info@teamafricaventures.com

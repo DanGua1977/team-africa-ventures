@@ -1,182 +1,309 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import { site } from '../data/site';
+import { site, audiences } from '../data/site';
 
-const include = [
-  { title: 'What you are building', body: 'One paragraph. If it takes longer than 30 seconds to explain, keep editing.' },
-  { title: 'Who it is for and how big that market is', body: 'Who pays, how many of them there are, and how fast that number is changing.' },
-  { title: 'Why you, and why now', body: 'What you know or have that incumbents do not, and why this is the right moment to launch.' },
-  { title: 'Traction so far', body: 'Revenue, users, pilots or letters of intent. Whatever is true today.' },
-  { title: 'What you are raising', body: 'The amount, what it buys, and the milestones it gets you to.' },
-];
+const asks: Record<string, string> = {
+  founders: 'Tell us which service you would replace, what you know about it from the inside, and why now.',
+  operators: 'Tell us which service business you have run, what you would automate first, and whether you want to lead the company.',
+  investors: 'Tell us how you invest, your typical cheque, and which markets you know well.',
+};
+const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Operator', investors: 'Co-investor' };
 ---
-<Base title="Contact" description="How to pitch Team Africa Ventures, or get in touch about partnerships and co-investment.">
+<Base title="Contact" description="Build with Team Africa Ventures: founders, operators and co-investors, start here." footerCta={false}>
   <PageHero
     label="Contact"
-    title="Pitch us, or just say hello."
-    intro="Email is the best way to reach us. Founders, send a deck or a one-page summary. Co-investors and partners, tell us what you have in mind."
+    title="Start a build with us."
+    intro="Founders, operators and co-investors all start the same way: a short email. Pick who you are and we will tell you what to include."
     parts={['seed', 'founder', 'partner']}
-  >
-    <div class="email-card">
-      <a class="email-card__addr" href={`mailto:${site.email}?subject=Pitch%3A%20`}>{site.email.split('@')[0]}@<wbr />{site.email.split('@')[1]}</a>
-      <div class="email-card__actions">
-        <a class="btn btn--primary" href={`mailto:${site.email}?subject=Pitch%3A%20`}>Write an email</a>
-        <button class="btn btn--ghost copy" type="button" data-copy={site.email}>
-          Copy address
-        </button>
-        <span class="copy__status" role="status" aria-live="polite"></span>
-      </div>
-    </div>
-  </PageHero>
+  />
 
-  <section class="section">
-    <div class="wrap include">
-      <div>
-        <p class="label">For founders</p>
-        <h2>What to put in your email.</h2>
-        <p class="include__note">
-          Short beats polished. A clear email with these five things will tell us more than a
-          40-slide deck.
-        </p>
-      </div>
-      <ol class="include__list">
-        {include.map((item, i) => (
-          <li>
-            <span class="include__n" aria-hidden="true">{i + 1}</span>
-            <div>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </div>
+  <section class="section" aria-labelledby="who-h">
+    <div class="wrap">
+      <h2 id="who-h" class="visually-hidden">Who are you?</h2>
+      <ul class="who">
+        {audiences.map((a) => (
+          <li id={a.id} class="who__item">
+            <h3>{a.who}</h3>
+            <p class="who__line">{a.line}</p>
+            <p class="who__ask">{asks[a.id]}</p>
+            <a class="link-arrow" href="#compose" data-role={roleLabel[a.id]}>Write as {roleLabel[a.id].toLowerCase()}</a>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   </section>
 
-  <section class="section on-mist">
-    <div class="wrap where">
+  <section class="section on-alt" id="compose" aria-labelledby="compose-h">
+    <div class="wrap split">
       <div>
-        <p class="label">Where we are</p>
-        <p class="where__city">{site.city}</p>
+        <p class="label">Write to us</p>
+        <h2 id="compose-h" class="h-section">Draft your email here.</h2>
+        <p class="compose__note">
+          This opens your email app with everything filled in. Nothing is sent until you press send
+          there. Prefer to write it yourself? Use the address below.
+        </p>
+        <div class="address">
+          <a class="address__email" href={`mailto:${site.email}`}>{site.email.split('@')[0]}@<wbr />{site.email.split('@')[1]}</a>
+          <button class="btn btn--ghost copy" type="button" data-copy={site.email}>Copy address</button>
+          <span class="copy__status" role="status" aria-live="polite"></span>
+        </div>
       </div>
-      <p class="where__note">
-        We meet founders in person in Cape Town and on video everywhere else. Before you write, it
-        is worth reading <a href="/approach/">how we work</a> and <a href="/portfolio/">who we have backed</a>.
-      </p>
+
+      <form class="compose" id="compose-form" novalidate>
+        <fieldset class="compose__roles">
+          <legend>I am a</legend>
+          {Object.values(roleLabel).map((r, i) => (
+            <label class="chip">
+              <input type="radio" name="role" value={r} checked={i === 0} />
+              <span>{r.toLowerCase()}</span>
+            </label>
+          ))}
+        </fieldset>
+
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required />
+          <p class="field__error" id="f-name-err" hidden>Add your name so we know who is writing.</p>
+        </div>
+        <div class="field">
+          <label for="f-industry">Which service industry would you rebuild?</label>
+          <input id="f-industry" name="industry" type="text" placeholder="For example: insurance claims handling" />
+        </div>
+        <div class="field">
+          <label for="f-link">Link to a deck, site or profile <span class="field__opt">(optional)</span></label>
+          <input id="f-link" name="link" type="url" inputmode="url" placeholder="https://" />
+        </div>
+        <div class="field">
+          <label for="f-msg">What should we know?</label>
+          <textarea id="f-msg" name="message" rows="6" aria-describedby="f-msg-hint"></textarea>
+          <p class="field__hint" id="f-msg-hint">{asks.founders}</p>
+        </div>
+        <button class="btn btn--solid" type="submit">Open in my email app</button>
+      </form>
     </div>
   </section>
 </Base>
 
-<script>
-  document.querySelectorAll<HTMLButtonElement>('.copy').forEach((btn) => {
+<script define:vars={{ email: site.email, asks }}>
+  const form = document.getElementById('compose-form');
+  const hint = document.getElementById('f-msg-hint');
+  const askFor = { Founder: asks.founders, Operator: asks.operators, 'Co-investor': asks.investors };
+
+  const setRole = (role) => {
+    const input = form.querySelector(`input[name="role"][value="${role}"]`);
+    if (input) {
+      input.checked = true;
+      hint.textContent = askFor[role];
+    }
+  };
+
+  form.addEventListener('change', (e) => {
+    if (e.target.name === 'role') hint.textContent = askFor[e.target.value];
+  });
+
+  // Arriving from "Founders / Operators / Co-investors" links pre-selects the role.
+  const fromHash = { '#founders': 'Founder', '#operators': 'Operator', '#investors': 'Co-investor' }[location.hash];
+  if (fromHash) setRole(fromHash);
+  document.querySelectorAll('a[data-role]').forEach((a) =>
+    a.addEventListener('click', () => setRole(a.dataset.role)),
+  );
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const err = document.getElementById('f-name-err');
+    const nameInput = document.getElementById('f-name');
+    if (!name) {
+      err.hidden = false;
+      nameInput.setAttribute('aria-invalid', 'true');
+      nameInput.setAttribute('aria-describedby', 'f-name-err');
+      nameInput.focus();
+      return;
+    }
+    err.hidden = true;
+    nameInput.removeAttribute('aria-invalid');
+    const role = data.get('role');
+    const industry = String(data.get('industry') || '').trim();
+    const link = String(data.get('link') || '').trim();
+    const msg = String(data.get('message') || '').trim();
+    const subject = `${role}: ${industry || 'building with TAV'}`;
+    const lines = [`Name: ${name}`, `I am a: ${role}`];
+    if (industry) lines.push(`Industry to rebuild: ${industry}`);
+    if (link) lines.push(`Link: ${link}`);
+    if (msg) lines.push('', msg);
+    const body = lines.join('\n');
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+
+  document.querySelectorAll('.copy').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      const status = btn.parentElement?.querySelector('.copy__status');
+      const status = btn.parentElement.querySelector('.copy__status');
       try {
-        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        await navigator.clipboard.writeText(btn.dataset.copy || '');
         btn.textContent = 'Copied';
-        if (status) status.textContent = 'Email address copied';
+        status.textContent = 'Email address copied';
       } catch {
-        if (status) status.textContent = 'Copy failed. Select the address above instead.';
+        status.textContent = 'Copy failed. Select the address instead.';
       }
-      setTimeout(() => {
-        btn.textContent = 'Copy address';
-      }, 2400);
+      setTimeout(() => (btn.textContent = 'Copy address'), 2400);
     });
   });
 </script>
 
 <style>
-  .email-card {
-    margin-top: 2.75rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line-dark);
-    max-width: 44rem;
-  }
-  .email-card__addr {
-    display: inline-block;
-    font-size: clamp(1.25rem, 0.6rem + 3.6vw, 3.25rem);
-    font-weight: 260;
-    letter-spacing: -0.02em;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-    line-height: 1.1;
-  }
-  .email-card__addr:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-  }
-  .email-card__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.9rem;
-    margin-top: 1.75rem;
-  }
-  .copy__status {
-    font-size: 0.95rem;
-    color: var(--on-dark-soft);
-  }
-
-  .include {
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: 3rem clamp(2rem, 6vw, 6rem);
-  }
-  .include h2 {
-    font-size: var(--step-3);
-    max-width: 12ch;
-  }
-  .include__note {
-    margin-top: 1.5rem;
-    color: var(--ink-soft);
-    max-width: 34ch;
-  }
-  .include__list {
+  .who {
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-  .include__list li {
     display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
-    gap: 1rem;
-    padding-block: 1.4rem;
-    border-top: 1px solid var(--line);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem clamp(1.5rem, 4vw, 3rem);
   }
-  .include__n {
+  .who__item {
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--text);
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+  .who__item:target {
+    border-top-color: var(--peach);
+  }
+  .who h3 {
     font-size: var(--step-2);
-    font-weight: 250;
-    line-height: 1;
-    color: var(--indigo);
-    font-variant-numeric: tabular-nums;
+    font-weight: 320;
+    margin-bottom: 0.75rem;
   }
-  .include__list h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.3rem;
+  .who__line {
+    font-weight: 520;
+    margin-bottom: 0.75rem;
   }
-  .include__list p {
-    color: var(--ink-soft);
+  .who__ask {
+    color: var(--text-soft);
+    margin-bottom: 1.25rem;
   }
 
-  .where {
+  .compose__note {
+    margin-top: 1.5rem;
+    color: var(--text-soft);
+    max-width: 38ch;
+  }
+  .address {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .address__email {
+    font-size: clamp(1.25rem, 0.8rem + 1.6vw, 1.75rem);
+    font-weight: 320;
+    overflow-wrap: anywhere;
+    width: 100%;
+  }
+  .copy__status {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+  }
+
+  .compose {
     display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: 2rem clamp(2rem, 6vw, 6rem);
-    align-items: end;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
   }
-  .where__city {
-    font-size: var(--step-3);
-    font-weight: 280;
-    line-height: 1.1;
+  .compose__roles {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  .where__note {
-    color: var(--ink-soft);
-    max-width: 48ch;
+  .compose__roles legend {
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    padding: 0;
+  }
+  .chip {
+    position: relative;
+  }
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .chip span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-weight: 560;
+  }
+  .chip input:checked + span {
+    background: var(--btn-bg);
+    border-color: var(--btn-bg);
+    color: var(--btn-ink);
+  }
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .field label {
+    font-weight: 600;
+  }
+  .field__opt {
+    font-weight: 420;
+    color: var(--text-soft);
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 1.05rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
+    min-height: 3rem;
+  }
+  .field input::placeholder {
+    color: var(--text-soft);
+    opacity: 0.8;
+  }
+  .field input:focus-visible,
+  .field textarea:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+  }
+  .field input[aria-invalid='true'] {
+    border-color: var(--ember);
+  }
+  .field__hint {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+  }
+  .field__error {
+    font-size: 0.95rem;
+    color: light-dark(#b23a17, #ff9f7f);
+    font-weight: 600;
+  }
+  .compose .btn {
+    justify-self: start;
   }
   @media (max-width: 63.99rem) {
-    .include,
-    .where {
+    .who {
       grid-template-columns: 1fr;
     }
   }

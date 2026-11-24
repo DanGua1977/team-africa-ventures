@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 ---
-<Base title="Page not found">
+<Base title="Page not found" footerCta={false}>
   <PageHero
     label="404"
     title="That page is not here."
@@ -10,7 +10,7 @@ import PageHero from '../components/PageHero.astro';
     parts={['seed']}
   >
     <div class="nf-actions">
-      <a class="btn btn--primary" href="/">Go to the home page</a>
+      <a class="btn btn--solid" href="/">Go to the home page</a>
       <a class="btn btn--ghost" href="/portfolio/">See the portfolio</a>
     </div>
   </PageHero>

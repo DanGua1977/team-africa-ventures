@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 const pages = [
-  { path: '/', heading: 'An early-stage fund run by entrepreneurs.' },
+  { path: '/', heading: 'We build the AI-first companies that replace service incumbents.' },
   { path: '/portfolio/', heading: 'The companies we have built and backed.' },
-  { path: '/approach/', heading: 'We work inside the business, not beside it.' },
+  { path: '/approach/', heading: 'We build inside the company, not beside it.' },
   { path: '/team/', heading: 'Operators first, investors second.' },
-  { path: '/contact/', heading: 'Pitch us, or just say hello.' },
+  { path: '/contact/', heading: 'Start a build with us.' },
 ];
 
 for (const p of pages) {
@@ -24,14 +24,54 @@ test('unknown pages return the 404 page', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: 'That page is not here.' })).toBeVisible();
 });
 
-test('pitch email is reachable from the home page', async ({ page }) => {
+test('founder path from the home page pre-selects the founder role', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Pitch your company' }).click();
-  await expect(page).toHaveURL(/\/contact\/$/);
+  await page.getByRole('navigation', { name: 'Start here' }).getByRole('link', { name: /Founders/ }).click();
+  await expect(page).toHaveURL(/\/contact\/#founders$/);
+  await expect(page.getByRole('radio', { name: 'founder' })).toBeChecked();
+});
+
+test('operator path pre-selects the operator role', async ({ page }) => {
+  await page.goto('/contact/#operators');
+  await expect(page.getByRole('radio', { name: 'operator' })).toBeChecked();
+});
+
+test('email composer asks for a name before opening the mail app', async ({ page }) => {
+  await page.goto('/contact/');
+  await page.getByRole('button', { name: 'Open in my email app' }).click();
+  await expect(page.getByText('Add your name so we know who is writing.')).toBeVisible();
+  await expect(page.getByLabel('Your name')).toHaveAttribute('aria-invalid', 'true');
+});
+
+test('contact email links to the studio inbox', async ({ page }) => {
+  await page.goto('/contact/');
   await expect(page.getByRole('link', { name: 'info@teamafricaventures.com' }).first()).toHaveAttribute(
     'href',
     /^mailto:info@teamafricaventures\.com/,
   );
+});
+
+test('theme toggle switches and remembers the theme', async ({ page }) => {
+  await page.goto('/');
+  const toggle = page.getByRole('button', { name: 'Dark theme' });
+  const before = await toggle.getAttribute('aria-pressed');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', before === 'true' ? 'false' : 'true');
+  await page.goto('/team/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', before === 'true' ? 'light' : 'dark');
+});
+
+test('track record shows the current figures', async ({ page }) => {
+  await page.goto('/');
+  for (const v of ['8', '1,000+', '$50m+', '$250m+']) {
+    await expect(page.locator('.ledger dd', { hasText: v }).first()).toBeVisible();
+  }
+});
+
+test('llms.txt is served for AI assistants', async ({ request }) => {
+  const res = await request.get('/llms.txt');
+  expect(res.status()).toBe(200);
+  expect(await res.text()).toContain('venture studio');
 });
 
 test('portfolio filter shows only exits', async ({ page }) => {

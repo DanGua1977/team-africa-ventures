@@ -2,27 +2,24 @@
 
 Owner for all items: Dan. Each one is also marked in the data file it lives in.
 
-## Track record (`src/data/site.ts`)
+Resolved on 24 Nov 2026: 8 exits, 1,000+ jobs, $50m+ raised, $250m+ value, Twangoo sold in 156 days, WumDrop seed-funded, Aretha added.
 
-1. **18 companies.** Dan's current figure. The overview deck only lists 16 partner companies. Which two are missing from the portfolio?
-2. **6 exits, 550+ jobs, $18m+ raised, $100m+ built or invested.** These come from the undated deck (around 2019). Update them or confirm them.
+## Before go-live
 
-## Portfolio (`src/data/portfolio.ts`)
+1. **Photos.** I found no headshots in Drive or Gmail. Send square originals of at least 800px for Daniel, Wayne and Aretha. Drop them in `public/images/team/`, or send them to me.
+2. **Aretha.** Confirm her surname, title and one-line bio (`src/data/team.ts`). The role "Finance and operations" is my reading of her work on payments, payroll and admin.
+3. **Focus areas** (`src/data/approach.ts`). Back-office services, customer operations, compliance and admin, and commerce operations are my reading of "incumbent, manual, people-oriented services". Confirm them or name your own.
+4. **Cheque size.** The "What we commit" line has no number. Add a range if you want one shown, like the Conviction and Mighty Capital profiles.
+5. **Lake Como.** The Geography line says "built from Cape Town and Lake Como". Confirm Lake Como should be named as a TAV base.
+6. **Wayne.** Confirm he has seen and approves the studio positioning and his bio.
 
-3. **Twangoo.** The deck says it was sold in 125 days, started in 2010. The live site says it was co-founded in 2011. Dan has also said 156 days. The site copy says "under six months" until this is settled.
-4. **Click2Sure.** Can the acquirer and exit year be named?
-5. **WumDrop.** What was TAV's relationship to it? Is it one of the six exits? The site currently counts it.
-6. **Latimer and JinPay.** No public description was found. Add a one-line summary and a sector for each.
-7. **ekaya, LifeQ, wineowine.** The descriptions come from public sources. Confirm they are right.
-8. **Roles.** Companies on the deck's logo slide without a success story are shown as "Partner company". Change any that should say Built, Co-founded or Seed and advisory.
+## Can wait
 
-## Team (`src/data/team.ts`)
-
-9. **Wider team.** The 2019 list (Kobus Fourie, Kornel Steyn, Jayde Clayton, Celeste Vorster, William Chin, Michiel van Dijk, Jaime Lilford) is hidden. Set `SHOW_WIDER_TEAM = true` once you have confirmed who is current.
-10. **Photos.** The current photos are 300px crops from the deck. Replace them with originals of at least 800px.
-11. **LinkedIn.** Add profile URLs for Daniel and Wayne if you want them shown.
-12. **Wayne.** Confirm Wayne is still a partner and has approved his bio.
-
-## Site
-
-13. **Domain and DNS.** Who controls teamafricaventures.com DNS? It's needed to point `www` at Railway.
+7. **18 vs 16.** The site lists 16 companies and shows 6 of the 8 exits, with a note that only public companies are listed. Add the missing ones if they can be named.
+8. **Twangoo start year.** The deck says 2010; the old site says 2011. The timeline shows 2010.
+9. **Click2Sure.** Can the acquirer and exit year be named?
+10. **Latimer and JinPay.** Add a one-line summary and a sector for each.
+11. **ekaya, LifeQ, wineowine.** Confirm the descriptions.
+12. **Wider team.** The 2019 list is hidden. Set `SHOW_WIDER_TEAM = true` once you have confirmed who is current.
+13. **LinkedIn.** Add profile URLs for the partners if you want them shown.
+14. **Domain and DNS.** Who controls the teamafricaventures.com DNS? That person needs to point `www` at Railway.

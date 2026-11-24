@@ -1,16 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import Mark from '../components/Mark.astro';
-import PitchBand from '../components/PitchBand.astro';
-import { stats } from '../data/site';
+import { stats, audiences } from '../data/site';
 import { portfolio } from '../data/portfolio';
-import { modes, stages, criteria } from '../data/approach';
+import { thesis, comparison, focusAreas, bestFor, stages } from '../data/approach';
 
-// Selected stories: the six companies on the deck's success-stories slide, in order.
-const storyNames = ['Twangoo', '5 Ounces', 'Glambox', 'Lula', 'Conversio', 'Click2Sure', 'Hyperli'];
-const stories = storyNames
-  .map((n) => portfolio.find((c) => c.name === n)!)
-  .sort((a, b) => (a.started ?? 0) - (b.started ?? 0));
+const storyNames = ['Twangoo', 'Glambox', 'Lula', 'Conversio', 'Click2Sure', 'Hyperli', 'WumDrop'];
+const stories = storyNames.map((n) => portfolio.find((c) => c.name === n)!);
 
 const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   ['seed'],
@@ -22,57 +18,132 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   <!-- Hero -->
   <section class="hero on-dark">
     <div class="hero__art" aria-hidden="true">
-      <Mark strokeWidth={1.1} draw idPrefix="hero" class="hero__mark" />
+      <Mark strokeWidth={1.1} draw idPrefix="hero" />
     </div>
     <div class="wrap hero__inner">
-      <h1 class="hero__title">An early-stage fund run by entrepreneurs.</h1>
+      <p class="hero__kicker"><span class="hero__dot" aria-hidden="true"></span>Venture studio, run by operators</p>
+      <h1 class="hero__title">We build the AI-first companies that replace service incumbents.</h1>
       <p class="lede hero__lede">
-        We put time, expertise and capital behind founders building technology businesses. We have
-        built, backed and sold companies ourselves, and we work alongside you the same way.
+        We build with founders from day zero. Software does the work, a small team makes the calls,
+        and the market is global.
       </p>
       <div class="hero__actions">
-        <a class="btn btn--primary" href="/contact/">Pitch your company</a>
-        <a class="btn btn--ghost" href="/portfolio/">See the portfolio</a>
+        <a class="btn btn--solid" href="/contact/#founders">Build with us</a>
+        <a class="btn btn--ghost" href="/approach/">How we build</a>
       </div>
-      <p class="hero__proof">
-        Companies we built or backed have been acquired by Groupon, Naspers and Campaign Monitor.
-      </p>
+    </div>
+
+    <nav class="wrap paths" aria-label="Start here">
+      <ul>
+        {audiences.map((a) => (
+          <li>
+            <a href={`/contact/#${a.id}`} class="path">
+              <span class="path__who">{a.who}</span>
+              <span class="path__line">{a.line}</span>
+              <span class="path__cta">{a.cta}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </section>
+
+  <!-- Thesis -->
+  <section class="section" aria-labelledby="thesis-h">
+    <div class="wrap">
+      <p class="label" id="thesis-h">What we believe</p>
+      <p class="thesis__statement">{thesis.statement}</p>
+      <ul class="principles">
+        {thesis.principles.map((p) => (
+          <li>
+            <h2 class="principles__title">{p.title}</h2>
+            <p>{p.body}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <!-- What we do -->
-  <section class="section intro">
+  <!-- Studio vs fund -->
+  <section class="section on-alt" aria-labelledby="compare-h">
     <div class="wrap">
-      <p class="label">What we do</p>
-      <p class="intro__statement">
-        We co-create technology businesses with founders and partners. At every stage we act as the
-        missing piece: capital, hands-on expertise, a network, and the tools we use on our own
-        companies.
-      </p>
-      <div class="intro__modes">
-        {modes.map((m) => (
-          <article class="mode">
-            <h2 class="mode__title">{m.title}</h2>
-            <p>{m.body}</p>
-            <p class="mode__eg">
-              <span class="visually-hidden">Examples: </span>
-              {m.examples.join(', ')}
-            </p>
-          </article>
-        ))}
+      <p class="label">Studio, not fund</p>
+      <h2 id="compare-h" class="h-section">We would rather build it with you than wire money and wait.</h2>
+      <div class="compare" role="region" aria-label="Seed fund and studio compared" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Question</span></th>
+              <th scope="col">{comparison.columns[0]}</th>
+              <th scope="col" class="compare__us">{comparison.columns[1]}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.label}</th>
+                <td>{r.fund}</td>
+                <td class="compare__us">{r.tav}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+    </div>
+  </section>
+
+  <!-- Focus and best for -->
+  <section class="section" aria-labelledby="focus-h">
+    <div class="wrap split">
+      <div>
+        <p class="label">Where we build</p>
+        <h2 id="focus-h" class="h-section">Large service markets that still run on headcount.</h2>
+        <div class="bestfor">
+          <h3>Best for</h3>
+          <ul>
+            {bestFor.map((b) => <li>{b}</li>)}
+          </ul>
+        </div>
+      </div>
+      <ul class="rule-list focus">
+        {focusAreas.map((f) => (
+          <li>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section on-alt" aria-labelledby="process-h">
+    <div class="wrap">
+      <p class="label">How a company gets built</p>
+      <h2 id="process-h" class="h-section">Three stages, from weak point to scale.</h2>
+      <ol class="stages">
+        {stages.map((s, i) => (
+          <li class="stage">
+            <Mark parts={stageParts[i]} strokeWidth={4} class="stage__mark" idPrefix={`st${i}`} />
+            <p class="stage__num">Stage {i + 1}</p>
+            <h3>{s.title}</h3>
+            <p>{s.summary}</p>
+          </li>
+        ))}
+      </ol>
+      <a class="link-arrow process__more" href="/approach/">See the questions we ask at each stage</a>
     </div>
   </section>
 
   <!-- Track record -->
-  <section class="section record on-dark" aria-labelledby="record-h">
-    <div class="wrap record__inner">
-      <div class="record__head">
+  <section class="section on-dark record" aria-labelledby="record-h">
+    <div class="wrap split">
+      <div>
         <p class="label">Track record</p>
-        <h2 id="record-h">Built, backed and sold.</h2>
+        <h2 id="record-h" class="h-section">We have built, backed and sold before.</h2>
         <p class="record__note">
-          Since co-founding Twangoo, our partners have started, funded and exited companies across
-          e-commerce, fintech, insurance and marketing software.
+          Companies we built or backed have been acquired by Groupon, Naspers, Campaign Monitor and
+          Massmart. We bring that experience into every build.
         </p>
       </div>
       <dl class="ledger">
@@ -87,68 +158,27 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   </section>
 
   <!-- Stories -->
-  <section class="section stories" aria-labelledby="stories-h">
+  <section class="section" aria-labelledby="stories-h">
     <div class="wrap">
       <div class="stories__head">
         <div>
-          <p class="label">Selected stories</p>
-          <h2 id="stories-h">Companies we started, funded and grew.</h2>
+          <p class="label">Selected companies</p>
+          <h2 id="stories-h" class="h-section">Where the experience comes from.</h2>
         </div>
-        <a class="btn btn--ghost on-light" href="/portfolio/">Full portfolio</a>
+        <a class="btn btn--ghost" href="/portfolio/">Full portfolio</a>
       </div>
       <ol class="timeline">
         {stories.map((c) => (
           <li class="timeline__row">
-            <span class="timeline__year">{c.started}</span>
+            <span class="timeline__year">{c.started ?? ''}</span>
             <h3 class="timeline__name">{c.name}</h3>
             <p class="timeline__summary">{c.summary}</p>
-            <p class="timeline__outcome">{c.outcome ?? 'Active'}</p>
+            <p class:list={['timeline__outcome', { 'is-exit': c.exited }]}>{c.outcome ?? 'Active'}</p>
           </li>
         ))}
       </ol>
     </div>
   </section>
-
-  <!-- Process -->
-  <section class="section process on-mist" aria-labelledby="process-h">
-    <div class="wrap">
-      <div class="process__head">
-        <p class="label">How a company gets built</p>
-        <h2 id="process-h">Three stages, the same way every time.</h2>
-      </div>
-      <ol class="stages">
-        {stages.map((s, i) => (
-          <li class="stage">
-            <Mark parts={stageParts[i]} strokeWidth={4} class="stage__mark" idPrefix={`st${i}`} />
-            <p class="stage__num" aria-hidden="true">Stage {i + 1}</p>
-            <h3>{s.title}</h3>
-            <p>{s.summary}</p>
-          </li>
-        ))}
-      </ol>
-      <a class="process__more" href="/approach/">Read the questions we ask at each stage</a>
-    </div>
-  </section>
-
-  <!-- Criteria -->
-  <section class="section criteria" aria-labelledby="criteria-h">
-    <div class="wrap criteria__inner">
-      <div>
-        <p class="label">Who we back</p>
-        <h2 id="criteria-h">What we look for in a founding team.</h2>
-      </div>
-      <ul class="criteria__list">
-        {criteria.map((c) => (
-          <li>
-            <h3>{c.title}</h3>
-            <p>{c.body}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <PitchBand />
 </Base>
 
 <style>
@@ -156,34 +186,50 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   .hero {
     position: relative;
     overflow: hidden;
-    min-height: min(100svh, 56rem);
+    min-height: min(100svh, 60rem);
     display: flex;
-    align-items: center;
-    padding-top: 9rem;
-    padding-bottom: 5rem;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: calc(var(--header-h) + 4rem);
   }
   .hero__art {
     position: absolute;
-    top: 50%;
-    right: -15vw;
-    width: min(66rem, 62vw);
-    transform: translateY(-44%);
+    top: 46%;
+    right: -18vw;
+    width: min(60rem, 56vw);
+    transform: translateY(-50%);
     pointer-events: none;
   }
   .hero__inner {
     position: relative;
     z-index: 1;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .hero__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1rem;
+    font-weight: 560;
+    color: var(--text-soft);
+    margin-bottom: 1.75rem;
+  }
+  .hero__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 4px rgba(127, 220, 224, 0.18);
   }
   .hero__title {
-    font-size: clamp(3rem, 1.6rem + 5.4vw, 6.5rem);
+    font-size: clamp(2.9rem, 1.4rem + 5.2vw, 6.25rem);
     font-weight: 230;
     line-height: 0.98;
     letter-spacing: -0.035em;
-    max-width: 11ch;
+    max-width: 13ch;
   }
   .hero__lede {
     margin-top: 2rem;
-    color: var(--on-dark-soft);
   }
   .hero__actions {
     display: flex;
@@ -191,38 +237,97 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     gap: 0.9rem;
     margin-top: 2.5rem;
   }
-  .hero__proof {
-    margin-top: 4rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line-dark);
-    max-width: 44ch;
-    font-size: 1rem;
-    color: var(--on-dark-soft);
+
+  .paths {
+    position: relative;
+    z-index: 1;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
   }
+  .paths ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+  .paths li + li {
+    border-left: 1px solid var(--line);
+  }
+  .path {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.35rem;
+    height: 100%;
+    padding: 1.5rem 1.5rem 1.25rem;
+    text-decoration: none;
+    transition: background-color 180ms ease;
+  }
+  .paths li:first-child .path {
+    padding-left: 0;
+  }
+  .path:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .path__who {
+    font-size: var(--step-1);
+    font-weight: 380;
+  }
+  .path__line {
+    color: var(--text-soft);
+    font-size: 1rem;
+    max-width: 32ch;
+  }
+  .path__cta {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 620;
+    color: var(--peach);
+  }
+  .path:hover .path__cta {
+    text-decoration: underline;
+  }
+
   @media (max-width: 63.99rem) {
     .hero__art {
-      top: 8rem;
+      top: calc(var(--header-h) + 1rem);
       right: -45vw;
       width: 115vw;
       transform: none;
       opacity: 0.3;
     }
   }
+  @media (max-width: 47.99rem) {
+    .paths ul {
+      grid-template-columns: 1fr;
+    }
+    .paths li + li {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+    .path {
+      padding-inline: 0;
+    }
+  }
   @media (prefers-reduced-motion: no-preference) {
+    .hero__kicker,
     .hero__title,
     .hero__lede,
     .hero__actions,
-    .hero__proof {
+    .paths {
       animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
     }
+    .hero__title {
+      animation-delay: 60ms;
+    }
     .hero__lede {
-      animation-delay: 120ms;
+      animation-delay: 140ms;
     }
     .hero__actions {
       animation-delay: 220ms;
     }
-    .hero__proof {
-      animation-delay: 320ms;
+    .paths {
+      animation-delay: 420ms;
     }
   }
   @keyframes rise {
@@ -232,57 +337,143 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     }
   }
 
-  /* What we do */
-  .intro__statement {
+  /* Thesis */
+  .thesis__statement {
     font-size: var(--step-3);
     font-weight: 280;
-    line-height: 1.18;
+    line-height: 1.16;
     letter-spacing: -0.015em;
-    max-width: 26ch;
+    max-width: 28ch;
   }
-  .intro__modes {
+  .principles {
+    list-style: none;
+    margin: clamp(3rem, 6vw, 5rem) 0 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 3rem clamp(2rem, 6vw, 6rem);
-    margin-top: clamp(3rem, 6vw, 5rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem clamp(1.5rem, 4vw, 3.5rem);
   }
-  .mode {
+  .principles li {
     padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    max-width: 34rem;
+    border-top: 2px solid var(--text);
   }
-  .mode__title {
+  .principles__title {
     font-size: var(--step-2);
-    font-weight: 320;
-    margin-bottom: 1rem;
+    font-weight: 340;
+    margin-bottom: 0.9rem;
   }
-  .mode p {
-    color: var(--ink-soft);
+  .principles p {
+    color: var(--text-soft);
+    max-width: 34ch;
   }
-  .mode__eg {
-    margin-top: 1.25rem;
+
+  /* Comparison */
+  .compare {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    overflow-x: auto;
+  }
+  .compare table {
+    width: 100%;
+    min-width: 40rem;
+    border-collapse: collapse;
+  }
+  .compare th,
+  .compare td {
+    text-align: left;
+    vertical-align: top;
+    padding: 1.15rem 1.25rem 1.15rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .compare thead th {
+    font-size: var(--step--1);
     font-weight: 600;
-    color: var(--indigo) !important;
+    letter-spacing: 0.03em;
+    color: var(--text-soft);
+    border-bottom-color: var(--text);
+  }
+  .compare tbody th {
+    font-weight: 560;
+    width: 26%;
+  }
+  .compare td {
+    color: var(--text-soft);
+    width: 34%;
+  }
+  .compare td.compare__us {
+    color: var(--text);
+    font-weight: 520;
+  }
+  .compare thead .compare__us {
+    color: var(--accent);
+  }
+
+  /* Focus */
+  .bestfor {
+    margin-top: 2.5rem;
+    padding: 1.5rem 1.75rem;
+    border-radius: 18px;
+    background: var(--bg-alt);
+  }
+  .bestfor h3 {
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .bestfor ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .focus h3 {
+    font-size: var(--step-1);
+    font-weight: 400;
+  }
+
+  /* Process */
+  .stages {
+    list-style: none;
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem clamp(1.5rem, 4vw, 4rem);
+  }
+  .stage :global(.stage__mark) {
+    width: 9.5rem;
+    height: auto;
+    margin-bottom: 2rem;
+    color: var(--text);
+  }
+  .stage__num {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .stage h3 {
+    font-size: var(--step-1);
+    font-weight: 420;
+    margin-bottom: 0.6rem;
+  }
+  .stage p:last-child {
+    color: var(--text-soft);
+    max-width: 30ch;
+  }
+  .process__more {
+    display: inline-block;
+    margin-top: 3rem;
   }
 
   /* Track record */
-  .record__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 3rem clamp(2rem, 6vw, 6rem);
-    align-items: start;
-  }
-  .record h2 {
-    font-size: var(--step-3);
-  }
   .record__note {
     margin-top: 1.5rem;
-    color: var(--on-dark-soft);
+    color: var(--text-soft);
     max-width: 36ch;
   }
   .ledger {
     margin: 0;
-    border-top: 1px solid var(--line-dark);
+    border-top: 1px solid var(--line);
   }
   .ledger__row {
     display: flex;
@@ -290,11 +481,11 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     justify-content: space-between;
     gap: 1.5rem;
     padding-block: 1.1rem;
-    border-bottom: 1px solid var(--line-dark);
+    border-bottom: 1px solid var(--line);
   }
   .ledger dt {
-    color: var(--on-dark-soft);
-    max-width: 24ch;
+    color: var(--text-soft);
+    max-width: 26ch;
   }
   .ledger dd {
     margin: 0;
@@ -315,10 +506,6 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     gap: 1.5rem;
     margin-bottom: clamp(2rem, 5vw, 3.5rem);
   }
-  .stories h2 {
-    font-size: var(--step-3);
-    max-width: 18ch;
-  }
   .timeline {
     list-style: none;
     margin: 0;
@@ -330,13 +517,13 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     grid-template-columns: 5rem minmax(9rem, 1fr) minmax(0, 2.2fr) minmax(0, 1.2fr);
     gap: 0.5rem 2rem;
     align-items: baseline;
-    padding-block: 1.5rem;
+    padding-block: 1.4rem;
     border-bottom: 1px solid var(--line);
   }
   .timeline__year {
     font-variant-numeric: tabular-nums;
     font-weight: 600;
-    color: var(--indigo);
+    color: var(--accent);
   }
   .timeline__name {
     font-size: var(--step-2);
@@ -344,13 +531,24 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     letter-spacing: -0.015em;
   }
   .timeline__summary {
-    color: var(--ink-soft);
+    color: var(--text-soft);
     max-width: 52ch;
   }
   .timeline__outcome {
     font-weight: 560;
     font-size: 1rem;
   }
+  .timeline__outcome.is-exit::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    background: var(--ember);
+    vertical-align: 0.1em;
+  }
+
   @media (max-width: 63.99rem) {
     .timeline__row {
       grid-template-columns: 4rem 1fr;
@@ -360,89 +558,9 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
       grid-column: 2;
     }
   }
-
-  /* Process */
-  .process h2 {
-    font-size: var(--step-3);
-    max-width: 18ch;
-  }
-  .stages {
-    list-style: none;
-    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 3rem clamp(1.5rem, 4vw, 4rem);
-  }
-  .stage {
-    color: var(--navy);
-  }
-  .stage :global(.stage__mark) {
-    width: 9.5rem;
-    height: auto;
-    margin-bottom: 2rem;
-  }
-  .stage__num {
-    font-size: var(--step--1);
-    font-weight: 600;
-    color: var(--indigo);
-    margin-bottom: 0.4rem;
-  }
-  .stage h3 {
-    font-size: var(--step-1);
-    font-weight: 400;
-    margin-bottom: 0.6rem;
-  }
-  .stage p:last-child {
-    color: var(--ink-soft);
-    max-width: 30ch;
-  }
-  .process__more {
-    display: inline-block;
-    margin-top: 3rem;
-    font-weight: 600;
-  }
-
-  /* Criteria */
-  .criteria__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: 3rem clamp(2rem, 6vw, 6rem);
-  }
-  .criteria h2 {
-    font-size: var(--step-3);
-    max-width: 14ch;
-  }
-  .criteria__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 2.5rem;
-  }
-  .criteria__list li {
-    padding-block: 1.25rem;
-    border-top: 1px solid var(--line);
-  }
-  .criteria__list h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0.3rem;
-  }
-  .criteria__list p {
-    color: var(--ink-soft);
-  }
-
-  @media (max-width: 63.99rem) {
-    .record__inner,
-    .criteria__inner {
-      grid-template-columns: 1fr;
-    }
-  }
   @media (max-width: 47.99rem) {
-    .intro__modes,
-    .stages,
-    .criteria__list {
+    .principles,
+    .stages {
       grid-template-columns: 1fr;
     }
   }

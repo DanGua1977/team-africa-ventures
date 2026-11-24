@@ -37,17 +37,17 @@ const { label, title, intro, parts } = Astro.props;
   }
   .page-hero__intro {
     margin-top: 1.75rem;
-    color: var(--on-dark-soft);
+    color: var(--text-soft);
   }
   .page-hero :global(.page-hero__mark) {
     position: absolute;
-    right: -18vw;
+    right: -24vw;
     top: 50%;
-    width: min(54rem, 68vw);
+    width: min(54rem, 62vw);
     height: auto;
     transform: translateY(-42%);
-    color: var(--on-dark);
-    opacity: 0.55;
+    color: var(--text);
+    opacity: 0.6;
   }
   @media (max-width: 47.99rem) {
     .page-hero :global(.page-hero__mark) {

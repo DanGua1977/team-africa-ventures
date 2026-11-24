@@ -2,7 +2,7 @@
 // Descriptions come from the "Proven success stories" slide unless a different source is noted.
 // Leave `summary` empty rather than guess — the page handles a missing summary.
 
-export type Role = 'Built' | 'Co-founded' | 'Seed and advisory' | 'Partner';
+export type Role = 'Built' | 'Co-founded' | 'Seed and advisory' | 'Seed funding' | 'Partner';
 
 export type Company = {
   name: string;
@@ -21,15 +21,14 @@ export const portfolio: Company[] = [
   {
     name: 'Twangoo',
     summary:
-      'Group-buying site we built and sold to Groupon in under six months. We then ran Groupon in South Africa for seven years.',
+      'Group-buying site we built and sold to Groupon 156 days after founding. We then ran Groupon in South Africa for seven years.',
     sector: 'E-commerce',
     role: 'Built',
     started: 2010,
     outcome: 'Acquired by Groupon',
     exited: true,
-    source: 'Overview deck; live site bios',
-    verify:
-      '⚠ VERIFY — deck says sold in 125 days and started 2010; live site says co-founded 2011; Dan has also said 156 days. Copy avoids the exact figure until confirmed.',
+    source: 'Overview deck; 156 days confirmed by Dan, 24 Nov 2026',
+    verify: '⚠ VERIFY — start year: deck says 2010, live site says 2011.',
   },
   {
     name: '5 Ounces',
@@ -95,14 +94,13 @@ export const portfolio: Company[] = [
   },
   {
     name: 'WumDrop',
-    summary: 'Same-day, last-mile delivery across South African cities.',
+    summary: 'Same-day, last-mile delivery across South African cities. We provided seed funding.',
     sector: 'Logistics',
-    role: 'Partner',
+    role: 'Seed funding',
     outcome: 'Acquired by Massmart',
     exited: true,
     url: 'https://www.wumdrop.com',
-    source: 'TechCentral (Makro majority stake); CB Insights (Massmart acquisition, 2021)',
-    verify: '⚠ VERIFY — TAV relationship and whether this counts among the six exits.',
+    source: 'Seed funding confirmed by Dan, 24 Nov 2026; acquisition per TechCentral and CB Insights',
   },
   {
     name: '8bit',

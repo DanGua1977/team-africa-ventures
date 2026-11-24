@@ -1,15 +1,40 @@
 ---
+// Closing call to action and site footer, as one dark block.
 import Logo from './Logo.astro';
+import Mark from './Mark.astro';
 import { nav, site } from '../data/site';
+interface Props {
+  cta?: boolean;
+}
+const { cta = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
-<footer class="site-footer on-dark">
+<footer class:list={["site-footer", "on-dark", { "site-footer--plain": !cta }]}>
+  {cta && (
+    <section class="cta" aria-labelledby="cta-h">
+      <Mark class="cta__mark" strokeWidth={1} idPrefix="cta" />
+      <div class="wrap cta__inner">
+        <h2 id="cta-h">Know an industry that is ready to be rebuilt?</h2>
+        <div class="cta__side">
+          <p>
+            Tell us which service you would replace, what you know about it from the inside, and why
+            now.
+          </p>
+          <div class="cta__actions">
+            <a class="btn btn--solid" href="/contact/#founders">Build with us</a>
+            <a class="cta__email" href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
   <div class="wrap">
     <div class="site-footer__top">
       <a href="/" class="site-footer__home" aria-label="Team Africa Ventures, home">
         <Logo idPrefix="ftr" />
       </a>
-      <p class="site-footer__line">An early-stage fund and company builder run by entrepreneurs.</p>
+      <p class="site-footer__line">An operator-led venture studio building AI-first companies.</p>
     </div>
 
     <div class="site-footer__grid">
@@ -20,6 +45,7 @@ const year = new Date().getFullYear();
       <div>
         <h2 class="site-footer__h">Based in</h2>
         <p>{site.city}</p>
+        <p class="site-footer__soft">Building for markets worldwide</p>
       </div>
       <nav aria-label="Footer">
         <h2 class="site-footer__h">Pages</h2>
@@ -36,8 +62,55 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    background: var(--navy-deep);
-    padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem;
+    background: var(--night);
+    padding-bottom: 2rem;
+  }
+  .site-footer--plain {
+    padding-top: clamp(3.5rem, 7vw, 5rem);
+  }
+  .cta {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+  .cta :global(.cta__mark) {
+    position: absolute;
+    left: -12rem;
+    bottom: -14rem;
+    width: 46rem;
+    height: auto;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .cta__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 2.5rem 4rem;
+    align-items: end;
+  }
+  .cta h2 {
+    font-size: var(--step-4);
+    font-weight: 250;
+    line-height: 1;
+    max-width: 13ch;
+  }
+  .cta__side p {
+    color: var(--text-soft);
+    max-width: 40ch;
+  }
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 1.75rem;
+  }
+  .cta__email {
+    font-weight: 600;
+    overflow-wrap: anywhere;
   }
   .site-footer a {
     text-decoration: none;
@@ -52,10 +125,11 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 1.5rem;
     padding-bottom: 2.5rem;
-    border-bottom: 1px solid var(--line-dark);
+    border-bottom: 1px solid var(--line);
   }
-  .site-footer__line {
-    color: var(--on-dark-soft);
+  .site-footer__line,
+  .site-footer__soft {
+    color: var(--text-soft);
     max-width: 34ch;
   }
   .site-footer__grid {
@@ -66,9 +140,9 @@ const year = new Date().getFullYear();
   }
   .site-footer__h {
     font-size: var(--step--1);
-    font-weight: 560;
-    letter-spacing: 0.04em;
-    color: var(--on-dark-soft);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text-soft);
     margin-bottom: 0.6rem;
   }
   .site-footer__email {
@@ -85,8 +159,13 @@ const year = new Date().getFullYear();
   }
   .site-footer__legal {
     font-size: var(--step--1);
-    color: var(--on-dark-soft);
+    color: var(--text-soft);
     padding-top: 1.5rem;
-    border-top: 1px solid var(--line-dark);
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 47.99rem) {
+    .cta__inner {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

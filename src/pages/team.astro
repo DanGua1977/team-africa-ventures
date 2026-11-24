@@ -1,37 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import PitchBand from '../components/PitchBand.astro';
-import { partners, widerTeam, SHOW_WIDER_TEAM } from '../data/team';
+import { partners, team, widerTeam, SHOW_WIDER_TEAM, type Person } from '../data/team';
+
+const initial = (p: Person) => p.name.trim().charAt(0).toUpperCase();
 ---
-<Base title="Team" description="The partners behind Team Africa Ventures: operators who co-founded Twangoo, ran Groupon South Africa and have built, backed and sold companies since.">
+<Base title="Team" description="The operators behind Team Africa Ventures: the founders of Twangoo and former leaders of Groupon South Africa, now building AI-first companies.">
   <PageHero
     label="Team"
     title="Operators first, investors second."
-    intro="Between us we have more than 30 years in business and more than 30 start-ups behind us. We have sold our own companies and run large teams through growth. That is the experience we bring to every company we work with."
+    intro="Between us we have more than 30 years in business and more than 30 start-ups behind us. We have sold our own companies, run large teams, and now build companies that need far smaller ones."
     parts={['founder', 'partner']}
   />
 
-  <section class="section">
+  <section class="section" aria-labelledby="partners-h">
     <div class="wrap">
-      <ul class="partners">
+      <h2 id="partners-h" class="visually-hidden">Partners</h2>
+      <ul class="people">
         {partners.map((p) => (
-          <li class="partner">
-            <img
-              class="partner__photo"
-              src={p.photo}
-              alt={`Portrait of ${p.name}`}
-              width="300"
-              height="300"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="partner__body">
-              <h2>{p.name}</h2>
-              <p class="partner__role">{p.role}</p>
-              {p.bio.map((para) => <p class="partner__bio">{para}</p>)}
+          <li class="person">
+            <div class="avatar">
+              {p.photo ? (
+                <img src={p.photo} alt={`Portrait of ${p.name}`} width="300" height="300" loading="lazy" decoding="async" />
+              ) : (
+                <span class="avatar__mono" aria-hidden="true">{initial(p)}</span>
+              )}
+            </div>
+            <div class="person__body">
+              <h3>{p.name}</h3>
+              <p class="person__role">{p.role}</p>
+              {p.bio.map((para) => <p class="person__bio">{para}</p>)}
               {p.linkedin && (
-                <a class="partner__link" href={p.linkedin} target="_blank" rel="noopener noreferrer">
+                <a class="link-arrow person__link" href={p.linkedin} target="_blank" rel="noopener noreferrer">
                   {p.name} on LinkedIn<span class="visually-hidden"> (opens in a new tab)</span>
                 </a>
               )}
@@ -39,100 +39,146 @@ import { partners, widerTeam, SHOW_WIDER_TEAM } from '../data/team';
           </li>
         ))}
       </ul>
-
-      {SHOW_WIDER_TEAM && (
-        <div class="wider">
-          <h2>The wider team</h2>
-          <ul>
-            {widerTeam.map((m) => (
-              <li>
-                <span class="wider__name">{m.name}</span>
-                <span class="wider__role">{m.role}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   </section>
 
-  <PitchBand title="Want to build with us?" body="Founders, operators and co-investors: if you think we should work together, send us a note with what you have in mind." />
+  <section class="section on-alt" aria-labelledby="team-h">
+    <div class="wrap">
+      <p class="label">The studio</p>
+      <h2 id="team-h" class="h-section">A small team, by design.</h2>
+      <ul class="crew">
+        {team.map((p) => (
+          <li class="crew__item">
+            <div class="avatar avatar--sm">
+              {p.photo ? (
+                <img src={p.photo} alt={`Portrait of ${p.name}`} width="160" height="160" loading="lazy" decoding="async" />
+              ) : (
+                <span class="avatar__mono" aria-hidden="true">{initial(p)}</span>
+              )}
+            </div>
+            <div>
+              <h3>{p.name}</h3>
+              <p class="person__role">{p.role}</p>
+              {p.bio.map((para) => <p class="person__bio">{para}</p>)}
+            </div>
+          </li>
+        ))}
+        {SHOW_WIDER_TEAM &&
+          widerTeam.map((m) => (
+            <li class="crew__item">
+              <div>
+                <h3>{m.name}</h3>
+                <p class="person__role">{m.role}</p>
+              </div>
+            </li>
+          ))}
+      </ul>
+    </div>
+  </section>
 </Base>
 
 <style>
-  .partners {
+  .people {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
     gap: clamp(3.5rem, 7vw, 6rem);
   }
-  .partner {
+  .person {
     display: grid;
-    grid-template-columns: minmax(10rem, 17rem) minmax(0, 1fr);
+    grid-template-columns: minmax(10rem, 16rem) minmax(0, 1fr);
     gap: 2rem clamp(2rem, 5vw, 5rem);
     align-items: start;
     padding-top: 2.5rem;
     border-top: 1px solid var(--line);
   }
-  .partner__photo {
-    width: 100%;
-    height: auto;
+  /* Portrait framed like the seed circle in the mark: a thin gradient ring. */
+  .avatar {
+    position: relative;
     aspect-ratio: 1;
-    object-fit: cover;
+    width: 100%;
     border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--peach), #5563c9 55%, var(--cyan));
+  }
+  .avatar img,
+  .avatar__mono {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg);
+  }
+  .avatar img {
     filter: grayscale(1) contrast(1.05);
   }
-  .partner h2 {
+  .avatar__mono {
+    display: grid;
+    place-items: center;
+    background: var(--night);
+    color: #fff;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 220;
+  }
+  .on-alt .avatar img,
+  .on-alt .avatar__mono {
+    border-color: var(--bg-alt);
+  }
+  .person h3 {
     font-size: var(--step-3);
+    font-weight: 300;
+    letter-spacing: -0.02em;
   }
-  .partner__role {
-    margin-top: 0.5rem;
-    margin-bottom: 1.75rem;
+  .person__role {
+    margin-top: 0.4rem;
+    margin-bottom: 1.25rem;
     font-weight: 600;
-    color: var(--indigo);
+    color: var(--accent);
   }
-  .partner__bio {
+  .person__bio {
     max-width: 60ch;
-    color: var(--ink-soft);
+    color: var(--text-soft);
   }
-  .partner__bio + .partner__bio {
+  .person__bio + .person__bio {
     margin-top: 1rem;
   }
-  .partner__link {
+  .person__link {
     display: inline-block;
     margin-top: 1.5rem;
-    font-weight: 600;
   }
-  .wider {
-    margin-top: clamp(4rem, 8vw, 6rem);
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--line);
-  }
-  .wider h2 {
-    font-size: var(--step-2);
-    margin-bottom: 1.5rem;
-  }
-  .wider ul {
+  .crew {
     list-style: none;
-    margin: 0;
+    margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-    gap: 1.25rem 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+    gap: 2.5rem;
   }
-  .wider__name {
-    display: block;
-    font-weight: 600;
+  .crew__item {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
   }
-  .wider__role {
-    color: var(--ink-soft);
+  .avatar--sm .avatar__mono {
+    font-size: 2.25rem;
+  }
+  .crew h3 {
+    font-size: var(--step-1);
+    font-weight: 400;
+  }
+  .crew .person__role {
+    margin-bottom: 0.6rem;
   }
   @media (max-width: 47.99rem) {
-    .partner {
+    .person {
       grid-template-columns: 1fr;
     }
-    .partner__photo {
+    .person .avatar {
       max-width: 11rem;
     }
   }

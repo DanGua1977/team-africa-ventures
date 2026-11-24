@@ -1,34 +1,40 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import PitchBand from '../components/PitchBand.astro';
 import { portfolio } from '../data/portfolio';
+import { stats } from '../data/site';
 
 const exitCount = portfolio.filter((c) => c.exited).length;
+const totalExits = stats.find((s) => s.label === 'Exits')?.value ?? String(exitCount);
+const totalCompanies = stats.find((s) => s.label.startsWith('Companies'))?.value ?? String(portfolio.length);
 const roleNote: Record<string, string> = {
   Built: 'We built it',
   'Co-founded': 'We co-founded it',
   'Seed and advisory': 'Seed funding and advice',
+  'Seed funding': 'Seed funding',
   Partner: 'Partner company',
 };
 ---
-<Base title="Portfolio" description="Companies Team Africa Ventures has built, co-founded and backed, including Twangoo, Lula, Conversio, Click2Sure and Hyperli.">
+<Base title="Portfolio" description="Companies Team Africa Ventures has built, co-founded and backed, including Twangoo, Lula, Conversio, Click2Sure, WumDrop and Hyperli.">
   <PageHero
     label="Portfolio"
     title="The companies we have built and backed."
-    intro="Some we started ourselves. Others we funded and worked inside from the first cheque. Here is the list, with what happened next."
+    intro={`${totalCompanies} companies and ${totalExits} exits so far. Some we started ourselves; others we funded and worked inside from the first cheque.`}
     parts={['seed', 'founder']}
   />
 
-  <section class="section portfolio">
+  <section class="section">
     <div class="wrap">
-      <div class="filter" role="group" aria-label="Filter companies">
-        <button type="button" class="filter__btn" data-filter="all" aria-pressed="true">
-          All companies <span class="filter__count">{portfolio.length}</span>
-        </button>
-        <button type="button" class="filter__btn" data-filter="exited" aria-pressed="false">
-          Exits <span class="filter__count">{exitCount}</span>
-        </button>
+      <div class="toolbar">
+        <div class="filter" role="group" aria-label="Filter companies">
+          <button type="button" class="filter__btn" data-filter="all" aria-pressed="true">
+            All listed <span class="filter__count">{portfolio.length}</span>
+          </button>
+          <button type="button" class="filter__btn" data-filter="exited" aria-pressed="false">
+            Exits <span class="filter__count">{exitCount}</span>
+          </button>
+        </div>
+        <p class="toolbar__note">We list the companies we can talk about publicly.</p>
       </div>
       <p class="visually-hidden" aria-live="polite" id="filter-status"></p>
 
@@ -66,8 +72,6 @@ const roleNote: Record<string, string> = {
       </ul>
     </div>
   </section>
-
-  <PitchBand />
 </Base>
 
 <script>
@@ -90,11 +94,22 @@ const roleNote: Record<string, string> = {
 </script>
 
 <style>
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .toolbar__note {
+    color: var(--text-soft);
+    font-size: 1rem;
+  }
   .filter {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
-    margin-bottom: 2.5rem;
   }
   .filter__btn {
     display: inline-flex;
@@ -105,20 +120,20 @@ const roleNote: Record<string, string> = {
     border-radius: 999px;
     border: 1px solid var(--line);
     background: transparent;
-    color: var(--navy);
+    color: var(--text);
     font: inherit;
     font-size: 1rem;
     font-weight: 560;
     cursor: pointer;
   }
   .filter__btn[aria-pressed='true'] {
-    background: var(--navy);
-    border-color: var(--navy);
-    color: var(--on-dark);
+    background: var(--btn-bg);
+    border-color: var(--btn-bg);
+    color: var(--btn-ink);
   }
   .filter__count {
     font-variant-numeric: tabular-nums;
-    opacity: 0.7;
+    opacity: 0.75;
   }
   .index {
     list-style: none;
@@ -155,11 +170,11 @@ const roleNote: Record<string, string> = {
   .index__sector {
     margin-top: 0.35rem;
     font-size: 1rem;
-    color: var(--indigo);
+    color: var(--accent);
     font-weight: 560;
   }
   .index__summary {
-    color: var(--ink-soft);
+    color: var(--text-soft);
     max-width: 52ch;
   }
   .index__meta {
@@ -170,7 +185,7 @@ const roleNote: Record<string, string> = {
   }
   .index__meta dt {
     font-size: var(--step--1);
-    color: var(--ink-soft);
+    color: var(--text-soft);
   }
   .index__meta dd {
     margin: 0;
