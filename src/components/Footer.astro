@@ -1,0 +1,92 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer on-dark">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <a href="/" class="site-footer__home" aria-label="Team Africa Ventures, home">
+        <Logo idPrefix="ftr" />
+      </a>
+      <p class="site-footer__line">An early-stage fund and company builder run by entrepreneurs.</p>
+    </div>
+
+    <div class="site-footer__grid">
+      <div>
+        <h2 class="site-footer__h">Write to us</h2>
+        <a class="site-footer__email" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+      <div>
+        <h2 class="site-footer__h">Based in</h2>
+        <p>{site.city}</p>
+      </div>
+      <nav aria-label="Footer">
+        <h2 class="site-footer__h">Pages</h2>
+        <ul>
+          <li><a href="/">Home</a></li>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+
+    <p class="site-footer__legal">© {year} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy-deep);
+    padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem;
+  }
+  .site-footer a {
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .site-footer__line {
+    color: var(--on-dark-soft);
+    max-width: 34ch;
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 2rem;
+    padding-block: 2.5rem;
+  }
+  .site-footer__h {
+    font-size: var(--step--1);
+    font-weight: 560;
+    letter-spacing: 0.04em;
+    color: var(--on-dark-soft);
+    margin-bottom: 0.6rem;
+  }
+  .site-footer__email {
+    font-size: var(--step-1);
+    font-weight: 320;
+    overflow-wrap: anywhere;
+  }
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .site-footer__legal {
+    font-size: var(--step--1);
+    color: var(--on-dark-soft);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-dark);
+  }
+</style>

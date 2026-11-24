@@ -1,0 +1,45 @@
+---
+import Mark from './Mark.astro';
+interface Props {
+  variant?: 'gradient' | 'mono';
+  class?: string;
+  idPrefix?: string;
+}
+const { variant = 'gradient', class: className, idPrefix = 'logo' } = Astro.props;
+---
+<span class:list={['logo', className]}>
+  <Mark variant={variant} strokeWidth={9} class="logo__mark" idPrefix={idPrefix} />
+  <span class="logo__rule" aria-hidden="true"></span>
+  <span class="logo__word">
+    <span>Team</span><span>Africa</span><span>Ventures</span>
+  </span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: inherit;
+  }
+  .logo__mark {
+    flex: 0 0 auto;
+    height: 2.5rem;
+    width: 3.75rem;
+  }
+  .logo__rule {
+    flex: 0 0 1px;
+    width: 1px;
+    align-self: stretch;
+    background: currentColor;
+    opacity: 0.7;
+  }
+  .logo__word {
+    display: flex;
+    flex-direction: column;
+    font-weight: 330;
+    font-size: 0.82rem;
+    line-height: 1.02;
+    letter-spacing: 0.01em;
+  }
+</style>

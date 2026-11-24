@@ -1,0 +1,27 @@
+{
+  "name": "team-africa-ventures",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "start": "node server.mjs",
+    "preview": "npm run build && npm start",
+    "test:e2e": "playwright test",
+    "test:all": "npm run build && playwright test"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/sitemap": "^3.7.6",
+    "@fontsource-variable/urbanist": "^5.3.0",
+    "astro": "^7.4.13",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}

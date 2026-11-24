@@ -1,0 +1,449 @@
+---
+import Base from '../layouts/Base.astro';
+import Mark from '../components/Mark.astro';
+import PitchBand from '../components/PitchBand.astro';
+import { stats } from '../data/site';
+import { portfolio } from '../data/portfolio';
+import { modes, stages, criteria } from '../data/approach';
+
+// Selected stories: the six companies on the deck's success-stories slide, in order.
+const storyNames = ['Twangoo', '5 Ounces', 'Glambox', 'Lula', 'Conversio', 'Click2Sure', 'Hyperli'];
+const stories = storyNames
+  .map((n) => portfolio.find((c) => c.name === n)!)
+  .sort((a, b) => (a.started ?? 0) - (b.started ?? 0));
+
+const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
+  ['seed'],
+  ['seed', 'founder'],
+  ['seed', 'founder', 'partner'],
+];
+---
+<Base>
+  <!-- Hero -->
+  <section class="hero on-dark">
+    <div class="hero__art" aria-hidden="true">
+      <Mark strokeWidth={1.1} draw idPrefix="hero" class="hero__mark" />
+    </div>
+    <div class="wrap hero__inner">
+      <h1 class="hero__title">An early-stage fund run by entrepreneurs.</h1>
+      <p class="lede hero__lede">
+        We put time, expertise and capital behind founders building technology businesses. We have
+        built, backed and sold companies ourselves, and we work alongside you the same way.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/contact/">Pitch your company</a>
+        <a class="btn btn--ghost" href="/portfolio/">See the portfolio</a>
+      </div>
+      <p class="hero__proof">
+        Companies we built or backed have been acquired by Groupon, Naspers and Campaign Monitor.
+      </p>
+    </div>
+  </section>
+
+  <!-- What we do -->
+  <section class="section intro">
+    <div class="wrap">
+      <p class="label">What we do</p>
+      <p class="intro__statement">
+        We co-create technology businesses with founders and partners. At every stage we act as the
+        missing piece: capital, hands-on expertise, a network, and the tools we use on our own
+        companies.
+      </p>
+      <div class="intro__modes">
+        {modes.map((m) => (
+          <article class="mode">
+            <h2 class="mode__title">{m.title}</h2>
+            <p>{m.body}</p>
+            <p class="mode__eg">
+              <span class="visually-hidden">Examples: </span>
+              {m.examples.join(', ')}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Track record -->
+  <section class="section record on-dark" aria-labelledby="record-h">
+    <div class="wrap record__inner">
+      <div class="record__head">
+        <p class="label">Track record</p>
+        <h2 id="record-h">Built, backed and sold.</h2>
+        <p class="record__note">
+          Since co-founding Twangoo, our partners have started, funded and exited companies across
+          e-commerce, fintech, insurance and marketing software.
+        </p>
+      </div>
+      <dl class="ledger">
+        {stats.map((s) => (
+          <div class="ledger__row">
+            <dt>{s.label}</dt>
+            <dd>{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section class="section stories" aria-labelledby="stories-h">
+    <div class="wrap">
+      <div class="stories__head">
+        <div>
+          <p class="label">Selected stories</p>
+          <h2 id="stories-h">Companies we started, funded and grew.</h2>
+        </div>
+        <a class="btn btn--ghost on-light" href="/portfolio/">Full portfolio</a>
+      </div>
+      <ol class="timeline">
+        {stories.map((c) => (
+          <li class="timeline__row">
+            <span class="timeline__year">{c.started}</span>
+            <h3 class="timeline__name">{c.name}</h3>
+            <p class="timeline__summary">{c.summary}</p>
+            <p class="timeline__outcome">{c.outcome ?? 'Active'}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section process on-mist" aria-labelledby="process-h">
+    <div class="wrap">
+      <div class="process__head">
+        <p class="label">How a company gets built</p>
+        <h2 id="process-h">Three stages, the same way every time.</h2>
+      </div>
+      <ol class="stages">
+        {stages.map((s, i) => (
+          <li class="stage">
+            <Mark parts={stageParts[i]} strokeWidth={4} class="stage__mark" idPrefix={`st${i}`} />
+            <p class="stage__num" aria-hidden="true">Stage {i + 1}</p>
+            <h3>{s.title}</h3>
+            <p>{s.summary}</p>
+          </li>
+        ))}
+      </ol>
+      <a class="process__more" href="/approach/">Read the questions we ask at each stage</a>
+    </div>
+  </section>
+
+  <!-- Criteria -->
+  <section class="section criteria" aria-labelledby="criteria-h">
+    <div class="wrap criteria__inner">
+      <div>
+        <p class="label">Who we back</p>
+        <h2 id="criteria-h">What we look for in a founding team.</h2>
+      </div>
+      <ul class="criteria__list">
+        {criteria.map((c) => (
+          <li>
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <PitchBand />
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: min(100svh, 56rem);
+    display: flex;
+    align-items: center;
+    padding-top: 9rem;
+    padding-bottom: 5rem;
+  }
+  .hero__art {
+    position: absolute;
+    top: 50%;
+    right: -15vw;
+    width: min(66rem, 62vw);
+    transform: translateY(-44%);
+    pointer-events: none;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .hero__title {
+    font-size: clamp(3rem, 1.6rem + 5.4vw, 6.5rem);
+    font-weight: 230;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    max-width: 11ch;
+  }
+  .hero__lede {
+    margin-top: 2rem;
+    color: var(--on-dark-soft);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.5rem;
+  }
+  .hero__proof {
+    margin-top: 4rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line-dark);
+    max-width: 44ch;
+    font-size: 1rem;
+    color: var(--on-dark-soft);
+  }
+  @media (max-width: 63.99rem) {
+    .hero__art {
+      top: 8rem;
+      right: -45vw;
+      width: 115vw;
+      transform: none;
+      opacity: 0.3;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__title,
+    .hero__lede,
+    .hero__actions,
+    .hero__proof {
+      animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+    .hero__lede {
+      animation-delay: 120ms;
+    }
+    .hero__actions {
+      animation-delay: 220ms;
+    }
+    .hero__proof {
+      animation-delay: 320ms;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  /* What we do */
+  .intro__statement {
+    font-size: var(--step-3);
+    font-weight: 280;
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    max-width: 26ch;
+  }
+  .intro__modes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem clamp(2rem, 6vw, 6rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  .mode {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    max-width: 34rem;
+  }
+  .mode__title {
+    font-size: var(--step-2);
+    font-weight: 320;
+    margin-bottom: 1rem;
+  }
+  .mode p {
+    color: var(--ink-soft);
+  }
+  .mode__eg {
+    margin-top: 1.25rem;
+    font-weight: 600;
+    color: var(--indigo) !important;
+  }
+
+  /* Track record */
+  .record__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 3rem clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .record h2 {
+    font-size: var(--step-3);
+  }
+  .record__note {
+    margin-top: 1.5rem;
+    color: var(--on-dark-soft);
+    max-width: 36ch;
+  }
+  .ledger {
+    margin: 0;
+    border-top: 1px solid var(--line-dark);
+  }
+  .ledger__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .ledger dt {
+    color: var(--on-dark-soft);
+    max-width: 24ch;
+  }
+  .ledger dd {
+    margin: 0;
+    font-size: var(--step-3);
+    font-weight: 250;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--peach);
+  }
+
+  /* Stories */
+  .stories__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .stories h2 {
+    font-size: var(--step-3);
+    max-width: 18ch;
+  }
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .timeline__row {
+    display: grid;
+    grid-template-columns: 5rem minmax(9rem, 1fr) minmax(0, 2.2fr) minmax(0, 1.2fr);
+    gap: 0.5rem 2rem;
+    align-items: baseline;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .timeline__year {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--indigo);
+  }
+  .timeline__name {
+    font-size: var(--step-2);
+    font-weight: 320;
+    letter-spacing: -0.015em;
+  }
+  .timeline__summary {
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+  .timeline__outcome {
+    font-weight: 560;
+    font-size: 1rem;
+  }
+  @media (max-width: 63.99rem) {
+    .timeline__row {
+      grid-template-columns: 4rem 1fr;
+    }
+    .timeline__summary,
+    .timeline__outcome {
+      grid-column: 2;
+    }
+  }
+
+  /* Process */
+  .process h2 {
+    font-size: var(--step-3);
+    max-width: 18ch;
+  }
+  .stages {
+    list-style: none;
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem clamp(1.5rem, 4vw, 4rem);
+  }
+  .stage {
+    color: var(--navy);
+  }
+  .stage :global(.stage__mark) {
+    width: 9.5rem;
+    height: auto;
+    margin-bottom: 2rem;
+  }
+  .stage__num {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--indigo);
+    margin-bottom: 0.4rem;
+  }
+  .stage h3 {
+    font-size: var(--step-1);
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+  }
+  .stage p:last-child {
+    color: var(--ink-soft);
+    max-width: 30ch;
+  }
+  .process__more {
+    display: inline-block;
+    margin-top: 3rem;
+    font-weight: 600;
+  }
+
+  /* Criteria */
+  .criteria__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 3rem clamp(2rem, 6vw, 6rem);
+  }
+  .criteria h2 {
+    font-size: var(--step-3);
+    max-width: 14ch;
+  }
+  .criteria__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 2.5rem;
+  }
+  .criteria__list li {
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .criteria__list h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.3rem;
+  }
+  .criteria__list p {
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 63.99rem) {
+    .record__inner,
+    .criteria__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 47.99rem) {
+    .intro__modes,
+    .stages,
+    .criteria__list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

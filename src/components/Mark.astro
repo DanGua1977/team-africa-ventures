@@ -1,0 +1,118 @@
+---
+// The TAV mark, rebuilt as vector geometry from the brand deck.
+// Three parts: the seed (small circle), the founder shape (circle with one square
+// corner) and the partner circle. Geometry: r = 180, centres 180 apart, the seed sits
+// on the founder circle's centre, so the partner circle passes through it.
+interface Props {
+  variant?: 'gradient' | 'mono';
+  /** Which parts to show at full strength; the rest are drawn as a faint guide. */
+  parts?: Array<'seed' | 'founder' | 'partner'>;
+  strokeWidth?: number;
+  draw?: boolean;
+  class?: string;
+  title?: string;
+  idPrefix?: string;
+}
+
+const {
+  variant = 'gradient',
+  parts = ['seed', 'founder', 'partner'],
+  strokeWidth = 5,
+  draw = false,
+  class: className,
+  title,
+  idPrefix = 'm',
+} = Astro.props;
+
+const has = (p: 'seed' | 'founder' | 'partner') => parts.includes(p);
+const g = (n: string) => `${idPrefix}-${n}`;
+const stroke = (n: string) => (variant === 'gradient' ? `url(#${g(n)})` : 'currentColor');
+---
+<svg
+  class:list={['mark', className, { 'mark--draw': draw }]}
+  viewBox="0 0 558 372"
+  fill="none"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  {variant === 'gradient' && (
+    <defs>
+      <linearGradient id={g('founder')} gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="372" y2="0">
+        <stop offset="0" stop-color="#F19D69" />
+        <stop offset="0.55" stop-color="#5563C9" />
+        <stop offset="1" stop-color="#7FDCE0" />
+      </linearGradient>
+      <linearGradient id={g('partner')} gradientUnits="userSpaceOnUse" x1="552" y1="0" x2="186" y2="0">
+        <stop offset="0" stop-color="#F19D69" />
+        <stop offset="0.55" stop-color="#5563C9" />
+        <stop offset="1" stop-color="#7FDCE0" />
+      </linearGradient>
+      <linearGradient id={g('seed')} gradientUnits="userSpaceOnUse" x1="129" y1="0" x2="243" y2="0">
+        <stop offset="0" stop-color="#7FDCE0" />
+        <stop offset="0.5" stop-color="#5563C9" />
+        <stop offset="1" stop-color="#F19D69" />
+      </linearGradient>
+    </defs>
+  )}
+  <g stroke-width={strokeWidth} stroke-linecap="round" stroke-linejoin="round">
+    <path
+      class:list={['mark__part', 'mark__founder', { 'mark__ghost': !has('founder') }]}
+      d="M186 366 A180 180 0 1 1 366 186 L366 366 Z"
+      stroke={has('founder') ? stroke('founder') : 'currentColor'}
+      pathLength="1"
+    />
+    <path
+      class:list={['mark__part', 'mark__partner', { 'mark__ghost': !has('partner') }]}
+      d="M195.03 129.72 A180 180 0 1 1 195.03 242.28"
+      stroke={has('partner') ? stroke('partner') : 'currentColor'}
+      pathLength="1"
+    />
+    <circle
+      class:list={['mark__part', 'mark__seed', { 'mark__ghost': !has('seed') }]}
+      cx="186"
+      cy="186"
+      r="57"
+      stroke={has('seed') ? stroke('seed') : 'currentColor'}
+      pathLength="1"
+    />
+  </g>
+</svg>
+
+<style>
+  .mark {
+    display: block;
+    overflow: visible;
+  }
+  .mark__ghost {
+    opacity: 0.16;
+    stroke-dasharray: 0.006 0.012;
+  }
+  .mark--draw .mark__part {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: mark-draw 2.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .mark--draw .mark__seed {
+    animation-delay: 0.1s;
+    animation-duration: 1.2s;
+  }
+  .mark--draw .mark__founder {
+    animation-delay: 0.6s;
+  }
+  .mark--draw .mark__partner {
+    animation-delay: 1s;
+  }
+  @keyframes mark-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mark--draw .mark__part {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

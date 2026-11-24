@@ -1,0 +1,183 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+
+const include = [
+  { title: 'What you are building', body: 'One paragraph. If it takes longer than 30 seconds to explain, keep editing.' },
+  { title: 'Who it is for and how big that market is', body: 'Who pays, how many of them there are, and how fast that number is changing.' },
+  { title: 'Why you, and why now', body: 'What you know or have that incumbents do not, and why this is the right moment to launch.' },
+  { title: 'Traction so far', body: 'Revenue, users, pilots or letters of intent. Whatever is true today.' },
+  { title: 'What you are raising', body: 'The amount, what it buys, and the milestones it gets you to.' },
+];
+---
+<Base title="Contact" description="How to pitch Team Africa Ventures, or get in touch about partnerships and co-investment.">
+  <PageHero
+    label="Contact"
+    title="Pitch us, or just say hello."
+    intro="Email is the best way to reach us. Founders, send a deck or a one-page summary. Co-investors and partners, tell us what you have in mind."
+    parts={['seed', 'founder', 'partner']}
+  >
+    <div class="email-card">
+      <a class="email-card__addr" href={`mailto:${site.email}?subject=Pitch%3A%20`}>{site.email.split('@')[0]}@<wbr />{site.email.split('@')[1]}</a>
+      <div class="email-card__actions">
+        <a class="btn btn--primary" href={`mailto:${site.email}?subject=Pitch%3A%20`}>Write an email</a>
+        <button class="btn btn--ghost copy" type="button" data-copy={site.email}>
+          Copy address
+        </button>
+        <span class="copy__status" role="status" aria-live="polite"></span>
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap include">
+      <div>
+        <p class="label">For founders</p>
+        <h2>What to put in your email.</h2>
+        <p class="include__note">
+          Short beats polished. A clear email with these five things will tell us more than a
+          40-slide deck.
+        </p>
+      </div>
+      <ol class="include__list">
+        {include.map((item, i) => (
+          <li>
+            <span class="include__n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section on-mist">
+    <div class="wrap where">
+      <div>
+        <p class="label">Where we are</p>
+        <p class="where__city">{site.city}</p>
+      </div>
+      <p class="where__note">
+        We meet founders in person in Cape Town and on video everywhere else. Before you write, it
+        is worth reading <a href="/approach/">how we work</a> and <a href="/portfolio/">who we have backed</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const status = btn.parentElement?.querySelector('.copy__status');
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        btn.textContent = 'Copied';
+        if (status) status.textContent = 'Email address copied';
+      } catch {
+        if (status) status.textContent = 'Copy failed. Select the address above instead.';
+      }
+      setTimeout(() => {
+        btn.textContent = 'Copy address';
+      }, 2400);
+    });
+  });
+</script>
+
+<style>
+  .email-card {
+    margin-top: 2.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line-dark);
+    max-width: 44rem;
+  }
+  .email-card__addr {
+    display: inline-block;
+    font-size: clamp(1.25rem, 0.6rem + 3.6vw, 3.25rem);
+    font-weight: 260;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    line-height: 1.1;
+  }
+  .email-card__addr:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+  .email-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1.75rem;
+  }
+  .copy__status {
+    font-size: 0.95rem;
+    color: var(--on-dark-soft);
+  }
+
+  .include {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 3rem clamp(2rem, 6vw, 6rem);
+  }
+  .include h2 {
+    font-size: var(--step-3);
+    max-width: 12ch;
+  }
+  .include__note {
+    margin-top: 1.5rem;
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+  .include__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .include__list li {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid var(--line);
+  }
+  .include__n {
+    font-size: var(--step-2);
+    font-weight: 250;
+    line-height: 1;
+    color: var(--indigo);
+    font-variant-numeric: tabular-nums;
+  }
+  .include__list h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  .include__list p {
+    color: var(--ink-soft);
+  }
+
+  .where {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 2rem clamp(2rem, 6vw, 6rem);
+    align-items: end;
+  }
+  .where__city {
+    font-size: var(--step-3);
+    font-weight: 280;
+    line-height: 1.1;
+  }
+  .where__note {
+    color: var(--ink-soft);
+    max-width: 48ch;
+  }
+  @media (max-width: 63.99rem) {
+    .include,
+    .where {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+// Closing call to action used across pages.
+import { site } from '../data/site';
+interface Props {
+  title?: string;
+  body?: string;
+}
+const {
+  title = 'Building something we should see?',
+  body = 'Send us a short deck or a one-page summary. Tell us what you are building, who it is for, and why now.',
+} = Astro.props;
+---
+<section class="pitch on-light">
+  <div class="wrap pitch__inner">
+    <h2>{title}</h2>
+    <div class="pitch__side">
+      <p>{body}</p>
+      <div class="pitch__actions">
+        <a class="btn btn--dark" href="/contact/">How to pitch us</a>
+        <a class="pitch__email" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pitch {
+    background: var(--peach);
+    color: var(--navy);
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+  .pitch__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2.5rem 4rem;
+    align-items: end;
+  }
+  .pitch h2 {
+    font-size: var(--step-3);
+    font-weight: 300;
+    max-width: 14ch;
+  }
+  .pitch__side p {
+    max-width: 40ch;
+  }
+  .pitch__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 1.75rem;
+  }
+  .pitch__email {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 47.99rem) {
+    .pitch__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
