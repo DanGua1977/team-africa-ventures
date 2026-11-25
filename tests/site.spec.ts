@@ -113,3 +113,11 @@ test('email signature logo is served as a PNG for mail clients', async ({ reques
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toBe('image/png');
 });
+
+test('signature template uses absolute https image URLs so mail clients can load them', async () => {
+  const { readFileSync } = await import('node:fs');
+  const html = readFileSync(new URL('../docs/email-signature/template.html', import.meta.url), 'utf8');
+  const srcs = [...html.matchAll(/<img[^>]+src="([^"]+)"/g)].map((m) => m[1]);
+  expect(srcs.length).toBeGreaterThan(0);
+  for (const src of srcs) expect(src).toMatch(/^https:\/\//);
+});
