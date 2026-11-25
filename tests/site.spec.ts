@@ -101,3 +101,9 @@ test('health check responds', async ({ request }) => {
   expect(res.status()).toBe(200);
   expect(await res.text()).toBe('ok');
 });
+
+test('team bios describe outside businesses generically, without naming them', async ({ page }) => {
+  await page.goto('/team/');
+  await expect(page.getByText('an AI consultancy that builds AI operating layers')).toBeVisible();
+  await expect(page.locator('main')).not.toContainText('Automaiq');
+});
