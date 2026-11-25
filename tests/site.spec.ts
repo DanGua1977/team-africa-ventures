@@ -107,3 +107,9 @@ test('team bios describe outside businesses generically, without naming them', a
   await expect(page.getByText('an AI consultancy that builds AI operating layers')).toBeVisible();
   await expect(page.locator('main')).not.toContainText('Automaiq');
 });
+
+test('email signature logo is served as a PNG for mail clients', async ({ request }) => {
+  const res = await request.get('/email/tav-logo.png');
+  expect(res.status()).toBe(200);
+  expect(res.headers()['content-type']).toBe('image/png');
+});
