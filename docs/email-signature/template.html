@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAV email signature template</title>
+<style>
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#f3f3f9;color:#1e1c4b;line-height:1.55}
+  main{max-width:46rem;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  h1{font-weight:500;font-size:1.9rem;margin:0 0 .5rem;letter-spacing:-.01em}
+  .lede{color:#4a4870;margin:0 0 2rem}
+  .card{background:#fff;border:1px solid rgba(30,28,75,.12);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem}
+  .card__head{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
+  .card h2{font-size:1.05rem;font-weight:600;margin:0;margin-right:auto}
+  .copy{font:inherit;font-weight:600;font-size:.95rem;min-height:2.6rem;padding:.4rem 1.1rem;border-radius:999px;border:0;background:#282557;color:#fff;cursor:pointer}
+  .copy:hover{background:#454e9c} .copy:focus-visible{outline:2px solid #5b67e0;outline-offset:3px}
+  .status{font-size:.9rem;color:#2e7f77}
+  .note{margin:-.25rem 0 1rem;font-size:.92rem;color:#8a4a1c;background:#fff4ec;border-radius:8px;padding:.5rem .75rem}
+  .sig{border-top:1px dashed rgba(30,28,75,.2);padding-top:1rem}
+  ol{padding-left:1.25rem} li{margin:.3rem 0} code{background:#ecebf6;padding:.05rem .35rem;border-radius:4px}
+  .steps{background:#fff;border-radius:16px;padding:1.25rem 1.5rem;border:1px solid rgba(30,28,75,.12);margin-top:2rem}
+  .steps h2{font-size:1.05rem;margin:0 0 .5rem}
+</style></head>
+<body><main>
+<h1>Email signatures</h1>
+<p class="lede">One per person. Press <strong>Copy signature</strong>, then paste it into your email settings using the steps at the bottom.</p>
+<section class="card" aria-labelledby="h-template">
+  <div class="card__head"><h2 id="h-template">{{Full name}}</h2>
+  <button type="button" class="copy" data-target="sig-template">Copy signature</button><span class="status" role="status" aria-live="polite"></span></div>
+  <p class="note">Blank template for new team members. Delete the booking line if there is no link.</p>
+  <div class="sig" id="sig-template"><table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;"><tr><td style="padding:0 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:20px;color:#282557;"><strong style="font-weight:bold;color:#282557;">{{Full name}}</strong><span style="color:#B7B5CC;">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span style="color:#454E9C;">{{Title}}</span></td></tr><tr><td style="padding:0 0 8px 0;"><table cellpadding="0" cellspacing="0" border="0" role="presentation"><tr><td width="32" height="2" style="width:32px;height:2px;background-color:#F19D69;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr><tr><td style="padding:0 0 12px 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#282557;"><span style="color:#454E9C;font-weight:bold;">e</span>&nbsp;&nbsp;<a href="mailto:{{name}}@teamafricaventures.com" style="color:#282557;text-decoration:none;">{{name}}@teamafricaventures.com</a><br><span style="color:#454E9C;font-weight:bold;">w</span>&nbsp;&nbsp;<a href="https://www.teamafricaventures.com" style="color:#282557;text-decoration:none;">www.teamafricaventures.com</a><br><a href="{{Booking link (optional)}}" style="color:#282557;font-weight:bold;text-decoration:underline;">Book a meeting with me</a></td></tr><tr><td style="padding:0;"><a href="https://www.teamafricaventures.com" style="text-decoration:none;"><img src="/email/tav-logo.png" width="200" height="64" alt="Team Africa Ventures" style="display:block;width:200px;height:64px;border:0;outline:none;"></a></td></tr></table></div>
+</section>
+<div class="steps">
+<h2>Add it in Gmail</h2>
+<ol>
+<li>In Gmail, open <strong>Settings</strong> (the gear), then <strong>See all settings</strong>.</li>
+<li>On the <strong>General</strong> tab, scroll to <strong>Signature</strong> and choose <strong>Create new</strong>. Call it <code>TAV</code>.</li>
+<li>Click in the signature box and paste (<code>Ctrl+V</code>, or <code>Cmd+V</code> on a Mac).</li>
+<li>Under <strong>Signature defaults</strong>, choose <code>TAV</code> for new emails and for replies and forwards.</li>
+<li>Scroll to the bottom and press <strong>Save changes</strong>. Then send yourself a test email.</li>
+</ol>
+<h2>Add it in Outlook</h2>
+<ol>
+<li>Open <strong>Settings</strong>, then <strong>Mail</strong>, then <strong>Compose and reply</strong>.</li>
+<li>Paste into the signature box, set it as the default, and save.</li>
+</ol>
+</div>
+</main>
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    var node = document.getElementById(btn.dataset.target);
+    var status = btn.parentElement.querySelector('.status');
+    var html = node.innerHTML;
+    try {
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([node.innerText], { type: 'text/plain' })
+      })]);
+      status.textContent = 'Copied. Now paste it into your email settings.';
+    } catch (e) {
+      var range = document.createRange(); range.selectNodeContents(node);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      var ok = document.execCommand && document.execCommand('copy');
+      status.textContent = ok ? 'Copied. Now paste it into your email settings.' : 'Selected. Press Ctrl+C (Cmd+C on a Mac) to copy.';
+    }
+  });
+});
+</script>
+</body></html>
