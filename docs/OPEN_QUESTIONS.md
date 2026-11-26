@@ -18,7 +18,7 @@ Resolved on 24 Nov 2026: 8 exits, 1,000+ jobs, $50m+ raised, $250m+ value, Twang
 7. **18 vs 16.** The site lists 16 companies and shows 6 of the 8 exits, with a note that only public companies are listed. Add the missing ones if they can be named.
 8. **Twangoo start year.** The deck says 2010; the old site says 2011. The timeline shows 2010.
 9. **Click2Sure.** Can the acquirer and exit year be named?
-10. **JinPay.** Add a one-line summary and a sector. (Latimer was Bulbshare, now listed as an exit to SMG; confirm TAV's role and year.)
+10. **JinPay and Bulbshare.** JinPay is listed as sold to Coindirect in 2022 on Dan's word, but PitchBook lists it as out of business and no public record of the sale was found; confirm the deal type. Bulbshare (formerly listed as Latimer) is an exit to SMG; confirm TAV's role and year for both.
 11. **ekaya, LifeQ, wineowine.** Confirm the descriptions.
 12. **Wider team.** The 2019 list is hidden. Set `SHOW_WIDER_TEAM = true` once you have confirmed who is current.
 13. **LinkedIn.** Add profile URLs for the partners if you want them shown.
