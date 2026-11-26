@@ -171,11 +171,12 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
   }
   .who h3 {
     font-size: var(--step-2);
-    font-weight: 320;
+    font-weight: 700;
     margin-bottom: 0.75rem;
   }
   .who__line {
-    font-weight: 520;
+    font-weight: 600;
+    color: var(--ink);
     margin-bottom: 0.75rem;
   }
   .who__ask {
@@ -196,8 +197,10 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
     margin-top: 2rem;
   }
   .address__email {
+    font-family: var(--sans);
     font-size: clamp(1.25rem, 0.8rem + 1.6vw, 1.75rem);
-    font-weight: 320;
+    font-weight: 600;
+    color: var(--ink);
     overflow-wrap: anywhere;
     width: 100%;
   }
@@ -210,7 +213,7 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
     display: grid;
     gap: 1.25rem;
     padding: clamp(1.5rem, 3vw, 2.25rem);
-    border-radius: 20px;
+    border-radius: 0;
     background: var(--surface);
     border: 1px solid var(--line);
   }
@@ -223,7 +226,9 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
     gap: 0.5rem;
   }
   .compose__roles legend {
-    font-weight: 600;
+    font-family: var(--sans);
+    font-weight: 700;
+    color: var(--ink);
     margin-bottom: 0.6rem;
     padding: 0;
   }
@@ -238,11 +243,12 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
     cursor: pointer;
   }
   .chip span {
+    font-family: var(--sans);
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
     padding: 0.45rem 1.1rem;
-    border-radius: 999px;
+    border-radius: 0;
     border: 1px solid var(--line);
     font-weight: 560;
   }
@@ -260,7 +266,9 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
     gap: 0.4rem;
   }
   .field label {
-    font-weight: 600;
+    font-family: var(--sans);
+    font-weight: 700;
+    color: var(--ink);
   }
   .field__opt {
     font-weight: 420;
@@ -274,7 +282,7 @@ const roleLabel: Record<string, string> = { founders: 'Founder', operators: 'Ope
     color: var(--text);
     background: var(--bg);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 0;
     padding: 0.75rem 0.9rem;
     min-height: 3rem;
   }
