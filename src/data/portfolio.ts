@@ -165,9 +165,14 @@ export const portfolio: Company[] = [
   },
   {
     name: 'JinPay',
+    summary: 'Business foreign exchange and payments platform that helps companies move money across borders.',
+    sector: 'Fintech',
     role: 'Partner',
-    source: 'Overview deck logo only',
-    verify: '⚠ VERIFY — no public description found. Add summary and sector.',
+    outcome: 'Acquired by Coindirect, 2022',
+    exited: true,
+    source: 'Sale: Dan, 26 Nov 2026. Description: jinpay.co and PitchBook.',
+    verify:
+      '⚠ VERIFY — PitchBook lists JinPay as "Out of Business"; no public record of the Coindirect sale was found. Confirm the deal type (company, assets or team) and TAV\'s role.',
   },
 ];
 

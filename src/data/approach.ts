@@ -42,7 +42,7 @@ export const profile = [
   },
   {
     term: 'Track record',
-    detail: '18 companies built or backed, 8 exits, including sales to Groupon, Naspers, Campaign Monitor, Massmart and SMG.',
+    detail: '18 companies built or backed, 8 exits, including sales to Groupon, Naspers, Campaign Monitor, Massmart, SMG and Coindirect.',
   },
 ];
 
