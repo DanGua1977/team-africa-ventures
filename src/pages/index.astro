@@ -71,8 +71,8 @@ const what: Array<{ title: string; body: string; cta: string; href: string; part
       <dl class="ledger">
         {stats.map((s) => (
           <div class="ledger__box">
-            <dd>{s.value}</dd>
             <dt>{s.label}</dt>
+            <dd>{s.value}</dd>
           </div>
         ))}
       </dl>
@@ -234,6 +234,7 @@ const what: Array<{ title: string; body: string; cta: string; href: string; part
     border: 1px solid var(--line);
   }
   .ledger dd {
+    order: -1;
     margin: 0;
     font-family: var(--sans);
     font-weight: 700;
