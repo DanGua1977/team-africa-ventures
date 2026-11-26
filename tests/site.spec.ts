@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const pages = [
-  { path: '/', heading: 'We build the AI-first companies that replace service incumbents.' },
+  { path: '/', heading: 'We build AI-first companies.' },
   { path: '/portfolio/', heading: 'The companies we have built and backed.' },
   { path: '/approach/', heading: 'We build inside the company, not beside it.' },
   { path: '/team/', heading: 'Operators first, investors second.' },
