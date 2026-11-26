@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Mark from '../components/Mark.astro';
-import { profile, commitments, stages, criteria, focusAreas, bestFor } from '../data/approach';
+import { profile, commitments, stages, criteria, focusAreas, bestFor, comparison } from '../data/approach';
 
 const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   ['seed'],
@@ -44,6 +44,33 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
           </dd>
         </div>
       </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="compare-h">
+    <div class="wrap">
+      <p class="label">Studio, not fund</p>
+      <h2 id="compare-h" class="h-section">We would rather build it with you than wire money and wait.</h2>
+      <div class="compare" role="region" aria-label="Seed fund and studio compared" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Question</span></th>
+              <th scope="col">{comparison.columns[0]}</th>
+              <th scope="col" class="compare__us">{comparison.columns[1]}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.label}</th>
+                <td>{r.fund}</td>
+                <td class="compare__us">{r.tav}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -111,6 +138,48 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
 </Base>
 
 <style>
+
+  .compare {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    overflow-x: auto;
+  }
+  .compare table {
+    width: 100%;
+    min-width: 40rem;
+    border-collapse: collapse;
+  }
+  .compare th,
+  .compare td {
+    text-align: left;
+    vertical-align: top;
+    padding: 1.15rem 1.25rem 1.15rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .compare thead th {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    border-bottom: 3px solid var(--line-strong);
+  }
+  .compare tbody th {
+    font-family: var(--sans);
+    font-weight: 700;
+    color: var(--ink);
+    width: 26%;
+  }
+  .compare td {
+    color: var(--text-soft);
+    width: 34%;
+  }
+  .compare td.compare__us {
+    color: var(--ink);
+  }
+  .compare thead .compare__us {
+    color: var(--ink);
+  }
   .glance {
     margin: 0;
     border-top: 2px solid var(--text);
@@ -123,7 +192,8 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     border-bottom: 1px solid var(--line);
   }
   .glance dt {
-    font-weight: 600;
+    font-family: var(--sans);
+    font-weight: 700;
     color: var(--accent);
   }
   .glance dd {
@@ -147,8 +217,10 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
     border-top: 1px solid var(--line);
   }
   .commit dt {
+    font-family: var(--sans);
     font-size: var(--step-1);
-    font-weight: 400;
+    font-weight: 700;
+    color: var(--ink);
     margin-bottom: 0.5rem;
   }
   .commit dd {
@@ -183,7 +255,7 @@ const stageParts: Array<Array<'seed' | 'founder' | 'partner'>> = [
   }
   .stage-row h3 {
     font-size: var(--step-2);
-    font-weight: 320;
+    font-weight: 700;
     letter-spacing: -0.015em;
   }
   .stage-row__sum {

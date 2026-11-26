@@ -1,59 +1,44 @@
 ---
-// Compact navy header for inner pages. The mark sits cropped at the right edge.
-import Mark from './Mark.astro';
+// Inner-page header: white, typographic, with the two-tone rule and a thin vertical connector.
 interface Props {
   label: string;
   title: string;
   intro?: string;
+  /** Accepted for compatibility with earlier pages; the editorial header has no artwork. */
   parts?: Array<'seed' | 'founder' | 'partner'>;
 }
-const { label, title, intro, parts } = Astro.props;
+const { label, title, intro } = Astro.props;
 ---
-<section class="page-hero on-dark">
-  <Mark class="page-hero__mark" strokeWidth={0.8} parts={parts} idPrefix="ph" />
+<section class="page-hero">
   <div class="wrap page-hero__inner">
     <p class="label">{label}</p>
     <h1>{title}</h1>
     {intro && <p class="lede page-hero__intro">{intro}</p>}
     <slot />
   </div>
+  <span class="page-hero__line" aria-hidden="true"></span>
 </section>
 
 <style>
   .page-hero {
     position: relative;
-    overflow: hidden;
-    padding-top: clamp(9rem, 16vw, 12rem);
-    padding-bottom: clamp(3.5rem, 7vw, 5.5rem);
-  }
-  .page-hero__inner {
-    position: relative;
-    z-index: 1;
+    padding-top: calc(var(--header-h) + clamp(3.5rem, 8vw, 6rem));
+    padding-bottom: clamp(4rem, 8vw, 6rem);
   }
   .page-hero h1 {
     font-size: var(--step-4);
-    font-weight: 260;
-    max-width: 16ch;
+    max-width: 18ch;
+    letter-spacing: -0.03em;
   }
   .page-hero__intro {
     margin-top: 1.75rem;
-    color: var(--text-soft);
   }
-  .page-hero :global(.page-hero__mark) {
+  .page-hero__line {
     position: absolute;
-    right: -24vw;
-    top: 50%;
-    width: min(54rem, 62vw);
-    height: auto;
-    transform: translateY(-42%);
-    color: var(--text);
-    opacity: 0.6;
-  }
-  @media (max-width: 47.99rem) {
-    .page-hero :global(.page-hero__mark) {
-      right: -45vw;
-      width: 115vw;
-      opacity: 0.28;
-    }
+    left: 50%;
+    bottom: 0;
+    width: 1px;
+    height: clamp(2.5rem, 5vw, 4rem);
+    background: var(--line-strong);
   }
 </style>
