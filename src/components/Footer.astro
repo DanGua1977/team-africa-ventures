@@ -1,7 +1,5 @@
 ---
-// Closing call to action and site footer, as one dark block.
-import Logo from './Logo.astro';
-import Mark from './Mark.astro';
+// Optional closing call to action, then the dark footer.
 import { nav, site } from '../data/site';
 interface Props {
   cta?: boolean;
@@ -9,162 +7,136 @@ interface Props {
 const { cta = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
-<footer class:list={["site-footer", "on-dark", { "site-footer--plain": !cta }]}>
-  {cta && (
-    <section class="cta" aria-labelledby="cta-h">
-      <Mark class="cta__mark" strokeWidth={1} idPrefix="cta" />
-      <div class="wrap cta__inner">
-        <h2 id="cta-h">Know an industry that is ready to be rebuilt?</h2>
-        <div class="cta__side">
-          <p>
-            Tell us which service you would replace, what you know about it from the inside, and why
-            now.
-          </p>
-          <div class="cta__actions">
-            <a class="btn btn--solid" href="/contact/#founders">Build with us</a>
-            <a class="cta__email" href={`mailto:${site.email}`}>{site.email}</a>
-          </div>
-        </div>
+{cta && (
+  <section class="cta" aria-labelledby="cta-h">
+    <div class="wrap cta__inner">
+      <h2 id="cta-h">Know an industry that is ready to be rebuilt?</h2>
+      <p class="cta__body">
+        Tell us which service you would replace, what you know about it from the inside, and why now.
+      </p>
+      <div class="cta__actions">
+        <a class="btn btn--solid" href="/contact/#founders">Build with us</a>
+        <a class="link-arrow" href={`mailto:${site.email}`}>{site.email}</a>
       </div>
-    </section>
-  )}
-
-  <div class="wrap">
-    <div class="site-footer__top">
-      <a href="/" class="site-footer__home" aria-label="Team Africa Ventures, home">
-        <Logo idPrefix="ftr" />
-      </a>
-      <p class="site-footer__line">An operator-led venture studio building AI-first companies.</p>
     </div>
+  </section>
+)}
 
+<footer class="site-footer on-dark">
+  <div class="wrap">
     <div class="site-footer__grid">
-      <div>
-        <h2 class="site-footer__h">Write to us</h2>
-        <a class="site-footer__email" href={`mailto:${site.email}`}>{site.email}</a>
+      <div class="site-footer__about">
+        <p class="site-footer__brand">Team Africa Ventures</p>
+        <p class="site-footer__line">
+          An operator-led venture studio. We build AI-first companies with founders, with small teams
+          and a global market, from {site.city.split(',')[0]}.
+        </p>
       </div>
-      <div>
-        <h2 class="site-footer__h">Based in</h2>
-        <p>{site.city}</p>
-        <p class="site-footer__soft">Building for markets worldwide</p>
-      </div>
-      <nav aria-label="Footer">
+      <nav aria-label="Footer" class="site-footer__nav">
         <h2 class="site-footer__h">Pages</h2>
         <ul>
           <li><a href="/">Home</a></li>
           {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
         </ul>
       </nav>
+      <div>
+        <h2 class="site-footer__h">Write to us</h2>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li>{site.city}</li>
+        </ul>
+      </div>
     </div>
-
-    <p class="site-footer__legal">© {year} {site.name}</p>
+    <div class="site-footer__bottom">
+      <p>© {year} {site.name}</p>
+    </div>
   </div>
 </footer>
 
 <style>
-  .site-footer {
-    background: var(--night);
-    padding-bottom: 2rem;
-  }
-  .site-footer--plain {
-    padding-top: clamp(3.5rem, 7vw, 5rem);
-  }
   .cta {
-    position: relative;
-    overflow: hidden;
-    padding-block: clamp(4.5rem, 9vw, 8rem);
-    border-bottom: 1px solid var(--line);
-    margin-bottom: clamp(3rem, 6vw, 4.5rem);
-  }
-  .cta :global(.cta__mark) {
-    position: absolute;
-    left: -12rem;
-    bottom: -14rem;
-    width: 46rem;
-    height: auto;
-    opacity: 0.5;
-    pointer-events: none;
+    padding-block: var(--section);
+    text-align: center;
+    border-top: 1px solid var(--line);
   }
   .cta__inner {
-    position: relative;
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 2.5rem 4rem;
-    align-items: end;
+    justify-items: center;
+    gap: 1.5rem;
   }
   .cta h2 {
-    font-size: var(--step-4);
-    font-weight: 250;
-    line-height: 1;
-    max-width: 13ch;
+    font-size: var(--step-3);
+    max-width: 18ch;
   }
-  .cta__side p {
+  .cta__body {
     color: var(--text-soft);
-    max-width: 40ch;
+    max-width: 44ch;
   }
   .cta__actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem 1.75rem;
-    margin-top: 1.75rem;
+    justify-content: center;
+    gap: 1.25rem 2rem;
+    margin-top: 0.5rem;
   }
-  .cta__email {
-    font-weight: 600;
-    overflow-wrap: anywhere;
-  }
-  .site-footer a {
-    text-decoration: none;
-  }
-  .site-footer a:hover {
-    text-decoration: underline;
-  }
-  .site-footer__top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding-bottom: 2.5rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .site-footer__line,
-  .site-footer__soft {
-    color: var(--text-soft);
-    max-width: 34ch;
+  .site-footer {
+    padding-block: clamp(4rem, 8vw, 6rem) 2.5rem;
   }
   .site-footer__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-    gap: 2rem;
-    padding-block: 2.5rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: 2.5rem clamp(2rem, 5vw, 4rem);
+    padding-top: 2rem;
+    background:
+      linear-gradient(var(--line-strong), var(--line-strong)) left top / 8rem 3px no-repeat,
+      linear-gradient(var(--line), var(--line)) left 1px / 100% 1px no-repeat;
+  }
+  .site-footer__brand {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .site-footer__line {
+    color: var(--text-soft);
+    max-width: 40ch;
+    font-size: 1rem;
   }
   .site-footer__h {
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: var(--text-soft);
-    margin-bottom: 0.6rem;
-  }
-  .site-footer__email {
-    font-size: var(--step-1);
-    font-weight: 320;
-    overflow-wrap: anywhere;
+    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
   }
   .site-footer ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.35rem;
-  }
-  .site-footer__legal {
-    font-size: var(--step--1);
+    gap: 0.45rem;
+    font-size: 1rem;
     color: var(--text-soft);
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
   }
-  @media (max-width: 47.99rem) {
-    .cta__inner {
+  .site-footer a {
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .site-footer a:hover {
+    text-decoration: underline;
+    color: var(--ink);
+  }
+  .site-footer__bottom {
+    margin-top: clamp(3rem, 6vw, 4rem);
+    padding-top: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    background:
+      linear-gradient(var(--line-strong), var(--line-strong)) left top / 8rem 3px no-repeat,
+      linear-gradient(var(--line), var(--line)) left 1px / 100% 1px no-repeat;
+  }
+  @media (max-width: 53.99rem) {
+    .site-footer__grid {
       grid-template-columns: 1fr;
     }
   }

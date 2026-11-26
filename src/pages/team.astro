@@ -119,8 +119,9 @@ const initial = (p: Person) => p.name.trim().charAt(0).toUpperCase();
     place-items: center;
     background: var(--night);
     color: #fff;
+    font-family: var(--sans);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 220;
+    font-weight: 300;
   }
   .on-alt .avatar img,
   .on-alt .avatar__mono {
@@ -128,13 +129,17 @@ const initial = (p: Person) => p.name.trim().charAt(0).toUpperCase();
   }
   .person h3 {
     font-size: var(--step-3);
-    font-weight: 300;
+    font-weight: 700;
     letter-spacing: -0.02em;
   }
   .person__role {
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
     margin-bottom: 1.25rem;
-    font-weight: 600;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--accent);
   }
   .person__bio {
@@ -169,7 +174,7 @@ const initial = (p: Person) => p.name.trim().charAt(0).toUpperCase();
   }
   .crew h3 {
     font-size: var(--step-1);
-    font-weight: 400;
+    font-weight: 700;
   }
   .crew .person__role {
     margin-bottom: 0.6rem;

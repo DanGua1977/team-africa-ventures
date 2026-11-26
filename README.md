@@ -60,17 +60,23 @@ Railway's older `railway.json` / `railway.toml` config files are deprecated and 
 - **Render, Fly.io or Cloud Run:** deploy the `Dockerfile` as it is. Health check: `GET /healthz`.
 - **Any static host** (Netlify, Cloudflare Pages, Vercel): build command `npm run build`, output folder `dist`. You won't need `server.mjs`.
 
-## Design system (v2)
+## Design system (v3, editorial)
 
-- **Colours:** the brand anchors are navy `#282557`, indigo `#454E9C`, teal `#6AC1B7`, ember `#EA5B31` and peach `#F19D69`. Three colours extend them: night `#14133A`, vivid indigo `#5B67E0` and the logo's cyan `#7FDCE0`. Peach is the main action colour. Ember marks exits. Cyan marks live and AI signals.
-- **Light and dark themes:** semantic tokens in `src/styles/global.css` use `light-dark()`. The site follows the reader's system setting until they use the theme button, and then it remembers their choice. Any section with the class `.on-dark` stays dark in both themes.
-- **UX patterns:**
-  - a fixed header that frosts on scroll, with a "Build with us" button that is always visible;
-  - three "Start here" paths for founders, operators and co-investors, which pre-select a role on the contact page;
-  - an email composer with no backend: it opens the visitor's mail app with everything filled in;
-  - native page transitions;
-  - a WCAG 2.2 AA scan that comes back clean in both themes.
+- **Inspiration:** rocket-internet.com. The site is white and typographic:
+  - bold geometric headlines (Urbanist) over serif reading text (Source Serif 4);
+  - tracked small capitals for navigation and buttons, and square outlined buttons;
+  - a two-tone rule over section titles;
+  - a light-grey "what we do" band, outlined stat boxes and a dark footer.
+- **Colour** comes from the TAV mark, plus peach and ember for small accents.
+- **Brand anchors:** navy `#282557`, indigo `#454E9C`, teal `#6AC1B7`, ember `#EA5B31` and peach `#F19D69`.
+- **Light and dark themes:** semantic tokens use `light-dark()`. Any section with the class `.on-dark` stays dark in both themes. The theme button remembers the reader's choice.
+- **Home page:**
+  - a centred hero with the mark drawing itself, the only animation on the page;
+  - Build, Back and Scale;
+  - the companies, with stats and a grid;
+  - the thesis statement;
+  - "Start here" paths for founders, operators and co-investors.
+- **How we build** holds the details: the at-a-glance profile, the studio-versus-fund comparison, commitments, the process and the criteria.
 - **Machine-readable:** `/llms.txt` gives AI assistants a plain-text summary, and every page carries Organization and portfolio schema.
-- **Logo:** the mark is rebuilt as vector geometry in `src/components/Mark.astro`. It has three parts: the seed, the founder shape and the partner circle. The process sections build the mark up one part per stage.
-- **Type:** Urbanist (open source, self-hosted) stands in for the brand's Mont and Geomanist, which are licensed fonts.
+- **Logo:** the vector mark is in `src/components/Mark.astro`. The Build, Back and Scale icons assemble it one part at a time.
 - **Social card and icons:** run `node scripts/render-brand-assets.mjs` to regenerate them.

@@ -112,12 +112,13 @@ const roleNote: Record<string, string> = {
     gap: 0.6rem;
   }
   .filter__btn {
+    font-family: var(--sans);
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
     min-height: 2.75rem;
     padding: 0.5rem 1.1rem;
-    border-radius: 999px;
+    border-radius: 0;
     border: 1px solid var(--line);
     background: transparent;
     color: var(--text);
@@ -153,7 +154,7 @@ const roleNote: Record<string, string> = {
   }
   .index__name h2 {
     font-size: var(--step-2);
-    font-weight: 300;
+    font-weight: 700;
     letter-spacing: -0.015em;
   }
   .index__name a {
@@ -168,10 +169,13 @@ const roleNote: Record<string, string> = {
     background-size: 100% 1px;
   }
   .index__sector {
-    margin-top: 0.35rem;
-    font-size: 1rem;
+    margin-top: 0.4rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--accent);
-    font-weight: 560;
+    font-weight: 650;
   }
   .index__summary {
     color: var(--text-soft);
@@ -184,12 +188,16 @@ const roleNote: Record<string, string> = {
     font-size: 1rem;
   }
   .index__meta dt {
-    font-size: var(--step--1);
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--text-soft);
   }
   .index__meta dd {
     margin: 0;
-    font-weight: 560;
+    font-weight: 600;
+    color: var(--ink);
   }
   .index__meta dd.is-exit::before {
     content: '';
