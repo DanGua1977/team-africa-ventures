@@ -156,3 +156,12 @@ test('Bulbshare is listed as an exit to SMG, and Latimer is gone', async ({ page
   await expect(row).toContainText('Acquired by Service Management Group (SMG), 2024');
   await expect(page.locator('main')).not.toContainText('Latimer');
 });
+
+test('JinPay is listed as an exit to Coindirect in 2022', async ({ page }) => {
+  await page.goto('/portfolio/');
+  const row = page.locator('.index__row', { hasText: 'JinPay' });
+  await expect(row).toHaveCount(1);
+  await expect(row).toHaveAttribute('data-exited', 'true');
+  await expect(row).toContainText('Acquired by Coindirect, 2022');
+  await expect(row).toContainText('foreign exchange');
+});
