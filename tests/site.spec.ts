@@ -113,3 +113,29 @@ test('email signature logo is served as a PNG for mail clients', async ({ reques
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toBe('image/png');
 });
+
+test('portfolio filter buttons use the sans display face', async ({ page }) => {
+  await page.goto('/portfolio/');
+  const family = await page.getByRole('button', { name: /Exits/ }).evaluate((el) => getComputedStyle(el).fontFamily);
+  expect(family).toContain('Urbanist');
+});
+
+test('track record list pairs each label (dt) before its value (dd)', async ({ page }) => {
+  await page.goto('/');
+  const firstTags = await page.locator('.ledger > div').evaluateAll((groups) =>
+    groups.map((g) => g.firstElementChild?.tagName),
+  );
+  expect(firstTags.length).toBeGreaterThan(0);
+  for (const tag of firstTags) expect(tag).toBe('DT');
+});
+
+test('browser theme colour follows light and dark', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('meta[name="theme-color"][media="(prefers-color-scheme: light)"]')).toHaveAttribute('content', '#ffffff');
+  await expect(page.locator('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')).toHaveAttribute('content', '#111030');
+  await page.evaluate(() => localStorage.setItem('tav-theme', 'dark'));
+  await page.reload();
+  for (const meta of await page.locator('meta[name="theme-color"]').all()) {
+    await expect(meta).toHaveAttribute('content', '#111030');
+  }
+});
