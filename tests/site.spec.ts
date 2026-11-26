@@ -113,3 +113,12 @@ test('email signature logo is served as a PNG for mail clients', async ({ reques
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toBe('image/png');
 });
+
+test('Bulbshare is listed as an exit to SMG, and Latimer is gone', async ({ page }) => {
+  await page.goto('/portfolio/');
+  const row = page.locator('.index__row', { hasText: 'Bulbshare' });
+  await expect(row).toHaveCount(1);
+  await expect(row).toHaveAttribute('data-exited', 'true');
+  await expect(row).toContainText('Acquired by Service Management Group (SMG), 2024');
+  await expect(page.locator('main')).not.toContainText('Latimer');
+});
