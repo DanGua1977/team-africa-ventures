@@ -152,10 +152,16 @@ export const portfolio: Company[] = [
     verify: '⚠ VERIFY — description.',
   },
   {
-    name: 'Latimer',
+    name: 'Bulbshare',
+    summary:
+      'AI-powered platform that connects brands with their customers to co-create products, marketing and strategy before they reach the market.',
+    sector: 'Consumer insights',
     role: 'Partner',
-    source: 'Overview deck logo only',
-    verify: '⚠ VERIFY — no public description found. Add summary and sector.',
+    outcome: 'Acquired by Service Management Group (SMG), 2024',
+    exited: true,
+    source:
+      'Dan, 26 Nov 2026 (listed as "Latimer" in the old deck); Wayne\'s March 2026 site copy; acquisition per SMG/Brentwood press release (24 Oct 2024) and PitchBook (10 Oct 2024)',
+    verify: '⚠ VERIFY — TAV role (Built, Seed funding or Partner) and the year TAV got involved (Wayne lists 2016).',
   },
   {
     name: 'JinPay',
