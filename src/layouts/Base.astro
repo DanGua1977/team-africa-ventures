@@ -65,7 +65,8 @@ const jsonLd = {
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="Plain-text summary for AI assistants" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111030" />
     <meta name="color-scheme" content="light dark" />
 
     <meta property="og:type" content="website" />
@@ -82,7 +83,11 @@ const jsonLd = {
     <script is:inline>
       try {
         var t = localStorage.getItem('tav-theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.dataset.theme = t;
+          var c = t === 'dark' ? '#111030' : '#ffffff';
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
+        }
       } catch (e) {}
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

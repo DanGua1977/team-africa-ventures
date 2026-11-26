@@ -58,6 +58,9 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
   themeBtn?.addEventListener('click', () => {
     const next = isDark() ? 'light' : 'dark';
     root.dataset.theme = next;
+    document
+      .querySelectorAll('meta[name="theme-color"]')
+      .forEach((m) => m.setAttribute('content', next === 'dark' ? '#111030' : '#ffffff'));
     try {
       localStorage.setItem('tav-theme', next);
     } catch {}
