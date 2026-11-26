@@ -139,3 +139,20 @@ test('browser theme colour follows light and dark', async ({ page }) => {
     await expect(meta).toHaveAttribute('content', '#111030');
   }
 });
+
+test('signature template uses absolute https image URLs so mail clients can load them', async () => {
+  const { readFileSync } = await import('node:fs');
+  const html = readFileSync(new URL('../docs/email-signature/template.html', import.meta.url), 'utf8');
+  const srcs = [...html.matchAll(/<img[^>]+src="([^"]+)"/g)].map((m) => m[1]);
+  expect(srcs.length).toBeGreaterThan(0);
+  for (const src of srcs) expect(src).toMatch(/^https:\/\//);
+});
+
+test('Bulbshare is listed as an exit to SMG, and Latimer is gone', async ({ page }) => {
+  await page.goto('/portfolio/');
+  const row = page.locator('.index__row', { hasText: 'Bulbshare' });
+  await expect(row).toHaveCount(1);
+  await expect(row).toHaveAttribute('data-exited', 'true');
+  await expect(row).toContainText('Acquired by Service Management Group (SMG), 2024');
+  await expect(page.locator('main')).not.toContainText('Latimer');
+});
